@@ -27,7 +27,7 @@
     <div>
       <%= form.label :parser_type, "Type", class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
       <span class="mt-2 inline-grid w-full grid-cols-[1fr_--spacing(8)]">
-        <%= form.select :parser_type, Source::PARSER_TYPES.map { |t| [ t, t ] }, { prompt: "pick a source" }, class: "col-span-full row-start-1 appearance-none rounded-sm border border-neutral-950/15 bg-white py-2 pr-8 pl-3 text-sm text-neutral-900 focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+        <%= form.select :parser_type, Source::CREATABLE_PARSER_TYPES.map { |t| [ t, t ] }, { prompt: "pick a source" }, class: "col-span-full row-start-1 appearance-none rounded-sm border border-neutral-950/15 bg-white py-2 pr-8 pl-3 text-sm text-neutral-900 focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
         <svg viewBox="0 0 8 5" width="8" height="5" fill="none" class="pointer-events-none col-start-2 row-start-1 place-self-center text-neutral-500">
           <path d="M.5.5 4 4 7.5.5" stroke="currentcolor" />
         </svg>
