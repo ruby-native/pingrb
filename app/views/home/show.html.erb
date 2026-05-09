@@ -1,0 +1,88 @@
+<% content_for :title, "pingrb — a tiny push notification app to stay on top of your indie business" %>
+
+<header class="border-b border-neutral-950/10">
+  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
+    <a href="/" aria-label="Homepage" class="text-emerald-700">
+      <span class="text-neutral-500">$</span> pingrb
+    </a>
+    <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+  </div>
+</header>
+
+<main class="mx-auto max-w-3xl px-4 py-12 text-sm sm:px-6 sm:py-20">
+  <section>
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">alpha</p>
+    <h1 class="mt-4 flex flex-wrap items-start gap-x-3 gap-y-1 text-2xl text-balance text-neutral-900 sm:text-3xl">
+      <span class="-translate-y-px text-emerald-700">❯</span>
+      <span>a tiny push notification app to stay on top of your indie business.</span>
+    </h1>
+    <p class="mt-5 max-w-[60ch] text-base text-neutral-600 text-pretty">I wanted alerts on my phone for the dev tools I use. Nothing out there was quite right, so I built this.</p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      <%= link_to "[ + get started ]", new_registration_path, class: "rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+      <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+    </div>
+  </section>
+
+  <section class="mt-20 border-t border-neutral-950/10 pt-10">
+    <p class="text-xs tracking-wide text-neutral-500 uppercase">how it works</p>
+    <ol class="mt-6 space-y-5 text-neutral-900">
+      <li class="grid grid-cols-[auto_1fr] gap-x-4">
+        <span class="text-emerald-700 tabular-nums">01</span>
+        <div>
+          <p class="text-neutral-900">sign up.</p>
+          <p class="mt-1 text-xs text-neutral-500">Free during alpha. No credit card.</p>
+        </div>
+      </li>
+      <li class="grid grid-cols-[auto_1fr] gap-x-4">
+        <span class="text-emerald-700 tabular-nums">02</span>
+        <div>
+          <p class="text-neutral-900">add a source.</p>
+          <p class="mt-1 text-xs text-neutral-500">Stripe for now.</p>
+        </div>
+      </li>
+      <li class="grid grid-cols-[auto_1fr] gap-x-4">
+        <span class="text-emerald-700 tabular-nums">03</span>
+        <div>
+          <p class="text-neutral-900">paste the webhook URL.</p>
+          <p class="mt-1 text-xs text-neutral-500">Drop it into your tool's webhook settings.</p>
+        </div>
+      </li>
+      <li class="grid grid-cols-[auto_1fr] gap-x-4">
+        <span class="text-emerald-700 tabular-nums">04</span>
+        <div>
+          <p class="text-neutral-900">get pinged.</p>
+          <p class="mt-1 text-xs text-neutral-500">Parsed and pretty, on your phone.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="mt-20 border-t border-neutral-950/10 pt-10">
+    <p class="text-xs tracking-wide text-neutral-500 uppercase">sources</p>
+    <ul role="list" class="mt-4 divide-y divide-neutral-950/10">
+      <li class="grid grid-cols-[8rem_1fr_auto] items-center gap-x-4 py-3">
+        <span class="text-neutral-900">Stripe</span>
+        <span class="text-xs text-neutral-500">payments, subscriptions, refunds, disputes</span>
+        <span class="text-xs text-emerald-700">live</span>
+      </li>
+      <li class="grid grid-cols-[8rem_1fr_auto] items-center gap-x-4 py-3">
+        <span class="text-neutral-500">Cal.com</span>
+        <span class="text-xs text-neutral-500">new bookings, reschedules, cancellations</span>
+        <span class="text-xs text-neutral-500">soon</span>
+      </li>
+    </ul>
+    <p class="mt-4 text-xs text-neutral-500">More if I need them. <%= link_to "Ping me", "mailto:joe@masilotti.com", class: "text-emerald-700 hover:underline" %> if you've got one in mind.</p>
+  </section>
+
+  <section class="mt-20 border-t border-neutral-950/10 pt-10 pb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-500">
+      <p>built by <%= link_to "joe masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
+      <p>
+        <%= link_to "sign up", new_registration_path, class: "hover:text-neutral-900" %>
+        ·
+        <%= link_to "sign in", new_session_path, class: "hover:text-neutral-900" %>
+      </p>
+    </div>
+  </section>
+</main>

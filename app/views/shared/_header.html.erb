@@ -1,0 +1,11 @@
+<header class="border-b border-neutral-950/10">
+  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
+    <a href="/" aria-label="Homepage" class="text-emerald-700">
+      <span class="text-neutral-500">$</span> pingrb
+    </a>
+    <div class="flex items-center gap-3 text-sm text-neutral-500">
+      <span class="hidden sm:inline"><%= Current.user.email_address %></span>
+      <%= button_to "logout", session_path, method: :delete, class: "text-neutral-500 hover:text-neutral-900", form: { class: "contents" } %>
+    </div>
+  </div>
+</header>

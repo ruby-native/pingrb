@@ -1,0 +1,37 @@
+<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <div class="flex flex-col items-start gap-3 pb-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+    <div>
+      <p class="text-xs tracking-wide text-neutral-500 uppercase">~/sources</p>
+      <h1 class="mt-2 flex items-center gap-2 text-lg whitespace-nowrap text-neutral-900">
+        <span class="-translate-y-px text-emerald-700">❯</span>
+        <span>ls --notifications</span>
+      </h1>
+    </div>
+    <%= link_to "[ + new source ]", new_source_path, class: "shrink-0 rounded-sm border border-emerald-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+  </div>
+
+  <% if @sources.any? %>
+    <div class="mt-2 -mx-4 grid grid-cols-[1fr_auto_auto] gap-x-4 border-t border-neutral-950/10 px-4 pt-2 text-xs tracking-wide text-neutral-500 uppercase sm:mx-0 sm:gap-x-6 sm:px-0">
+      <span>name</span>
+      <span>type</span>
+      <span class="text-right">events</span>
+    </div>
+    <ul role="list" class="-mx-4 divide-y divide-neutral-950/10 sm:mx-0">
+      <% @sources.each do |source| %>
+        <li>
+          <%= link_to source_path(source), class: "grid grid-cols-[1fr_auto_auto] items-center gap-x-4 px-4 py-3 text-neutral-900 transition hover:bg-neutral-50 sm:gap-x-6 sm:px-0" do %>
+            <span class="truncate"><%= source.name %></span>
+            <span class="text-neutral-500"><%= source.parser_type %></span>
+            <span class="tabular-nums text-emerald-700"><%= source.notifications.count.to_s.rjust(4, "0") %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="-mx-4 border-t border-neutral-950/10 px-4 py-16 text-center sm:mx-0 sm:px-0 sm:py-20">
+      <p class="text-xs tracking-wide text-neutral-500 uppercase">$ no sources yet</p>
+      <p class="mx-auto mt-3 max-w-[40ch] text-sm text-neutral-600 text-pretty">Add your first source to start receiving push notifications for your dev tools.</p>
+      <%= link_to "[ + new source ]", new_source_path, class: "mt-6 inline-flex rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+    </div>
+  <% end %>
+</main>

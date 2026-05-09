@@ -1,0 +1,37 @@
+<main class="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-xs flex-col justify-center px-6 py-10 text-sm">
+  <p class="text-base text-emerald-700">
+    <span class="text-neutral-500">$</span> pingrb
+  </p>
+  <h1 class="mt-6 text-xs tracking-wide text-neutral-500 uppercase">sign up</h1>
+
+  <%= form_with model: @user, url: registration_path, class: "mt-4 space-y-4" do |form| %>
+    <% if @user.errors.any? %>
+      <div class="border-l-2 border-red-700 bg-red-50 px-3 py-2 text-xs text-red-900">
+        <span class="text-red-700">[err]</span>
+        <ul role="list" class="mt-1 list-disc pl-5">
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= form.label :email_address, "email", class: "sr-only" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "email", class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <div>
+      <%= form.label :password, "password", class: "sr-only" %>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "password", maxlength: 72, class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <div>
+      <%= form.label :password_confirmation, "confirm password", class: "sr-only" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "confirm password", maxlength: 72, class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <%= form.submit "[ sign up ]", class: "w-full rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+  <% end %>
+
+  <div class="mt-6 text-right text-xs text-neutral-500">
+    <%= link_to "← have an account? sign in", new_session_path, class: "hover:text-neutral-900" %>
+  </div>
+</main>

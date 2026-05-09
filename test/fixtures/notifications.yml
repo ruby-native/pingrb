@@ -1,0 +1,7 @@
+payment:
+  source: stripe
+  title: New payment
+  body: $49.99 USD from joe@example.com
+  url: https://dashboard.stripe.com/payments/pi_123
+  received_at: <%= Time.current %>
+  raw_payload: '{}'

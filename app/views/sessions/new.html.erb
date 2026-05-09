@@ -1,0 +1,23 @@
+<main class="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-xs flex-col justify-center px-6 py-10 text-sm">
+  <p class="text-base text-emerald-700">
+    <span class="text-neutral-500">$</span> pingrb
+  </p>
+  <h1 class="mt-6 text-xs tracking-wide text-neutral-500 uppercase">login</h1>
+
+  <%= form_with url: session_path, class: "mt-4 space-y-4" do |form| %>
+    <div>
+      <%= form.label :email_address, "email", class: "sr-only" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "email", value: params[:email_address] || (Rails.env.development? ? "user@example.com" : nil), class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <div>
+      <%= form.label :password, "password", class: "sr-only" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "password", maxlength: 72, value: (Rails.env.development? ? "password" : nil), class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <%= form.submit "[ sign in ]", class: "w-full rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+  <% end %>
+
+  <div class="mt-6 flex items-center justify-between text-xs text-neutral-500">
+    <%= link_to "forgot password?", new_password_path, class: "hover:text-neutral-900" %>
+    <%= link_to "sign up →", new_registration_path, class: "text-emerald-700 hover:underline" %>
+  </div>
+</main>

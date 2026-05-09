@@ -1,0 +1,52 @@
+<ol class="mt-4 space-y-4 text-neutral-700">
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">01</span>
+    <div>
+      <p class="text-neutral-900">Open <%= link_to "Stripe webhooks", "https://dashboard.stripe.com/webhooks", target: "_blank", rel: "noopener", class: "text-emerald-700 hover:underline" %>.</p>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">02</span>
+    <div>
+      <p class="text-neutral-900">Click <strong class="font-medium">Add destination</strong>.</p>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">03</span>
+    <div>
+      <p class="text-neutral-900">Subscribe to the events that matter, for example:</p>
+      <ul role="list" class="mt-2 space-y-1 text-xs text-neutral-500">
+        <li><code class="text-neutral-700">payment_intent.succeeded</code> — new payment</li>
+        <li><code class="text-neutral-700">customer.subscription.created</code> — new subscription</li>
+        <li><code class="text-neutral-700">customer.subscription.deleted</code> — cancelled subscription</li>
+      </ul>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">04</span>
+    <div class="min-w-0">
+      <p class="text-neutral-900">Select <strong class="font-medium">Webhook endpoint</strong> and paste this URL.</p>
+      <%= render "webhook_url_field", url: public_webhook_url(parser_type: source.parser_type, token: source.token) %>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">05</span>
+    <div class="min-w-0">
+      <p class="text-neutral-900">Reveal the signing secret and paste it here.</p>
+      <p class="mt-1 text-xs text-neutral-500">Stripe shows it once after the endpoint is created. Format: <code class="text-neutral-700">whsec_...</code></p>
+
+      <%= form_with model: source, class: "mt-4" do |form| %>
+        <%= form.label :signing_secret, "signing secret", class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
+        <div class="mt-2 flex items-center gap-2">
+          <%= form.password_field :signing_secret, value: source.signing_secret, placeholder: "whsec_...", class: "min-w-0 flex-1 rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+          <%= form.submit (source.signing_secret.present? ? "update" : "save"), class: "min-w-18 shrink-0 rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+        </div>
+        <% if source.signing_secret.blank? %>
+          <p class="mt-2 text-xs text-red-700">Webhooks will be rejected until you add the signing secret.</p>
+        <% else %>
+          <p class="mt-2 text-xs text-emerald-700">Signing secret saved. Webhooks are verified.</p>
+        <% end %>
+      <% end %>
+    </div>
+  </li>
+</ol>

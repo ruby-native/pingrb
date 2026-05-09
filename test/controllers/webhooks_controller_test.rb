@@ -1,0 +1,108 @@
+require "test_helper"
+
+class WebhooksControllerTest < ActionDispatch::IntegrationTest
+  def stripe_signature_header(body, secret, timestamp: Time.current.to_i)
+    sig = OpenSSL::HMAC.hexdigest("SHA256", secret, "#{timestamp}.#{body}")
+    "t=#{timestamp},v1=#{sig}"
+  end
+
+  test "creates a notification from a verified Stripe webhook" do
+    source = sources(:stripe)
+    payload = {
+      "type" => "payment_intent.succeeded",
+      "data" => {
+        "object" => {
+          "id" => "pi_123",
+          "amount" => 4999,
+          "currency" => "usd",
+          "receipt_email" => "joe@example.com"
+        }
+      }
+    }
+    body = payload.to_json
+
+    assert_difference -> { source.notifications.count }, 1 do
+      post webhook_url(parser_type: "stripe", token: source.token),
+        params: body,
+        headers: {
+          "Content-Type" => "application/json",
+          "Stripe-Signature" => stripe_signature_header(body, source.signing_secret)
+        }
+    end
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "New payment", notification.title
+    assert_equal "$49.99 USD from joe@example.com", notification.body
+  end
+
+  test "rejects a Stripe webhook with an invalid signature" do
+    source = sources(:stripe)
+    body = '{"type":"payment_intent.succeeded"}'
+
+    assert_no_difference -> { source.notifications.count } do
+      post webhook_url(parser_type: "stripe", token: source.token),
+        params: body,
+        headers: {
+          "Content-Type" => "application/json",
+          "Stripe-Signature" => "t=1,v1=deadbeef"
+        }
+    end
+
+    assert_response :unauthorized
+  end
+
+  test "rejects a Stripe webhook missing the signature header" do
+    source = sources(:stripe)
+    body = '{"type":"payment_intent.succeeded"}'
+
+    assert_no_difference -> { source.notifications.count } do
+      post webhook_url(parser_type: "stripe", token: source.token),
+        params: body,
+        headers: { "Content-Type" => "application/json" }
+    end
+
+    assert_response :unauthorized
+  end
+
+  test "creates a notification from a Honeybadger webhook (unsigned)" do
+    source = sources(:honeybadger)
+    payload = {
+      "event" => "down",
+      "message" => "[pingrb] Site is down.",
+      "site" => { "name" => "pingrb.com", "url" => "https://pingrb.com" },
+      "outage" => { "down_at" => "2026-05-08T22:25:40Z" }
+    }
+
+    post webhook_url(parser_type: "honeybadger", token: source.token),
+      params: payload.to_json,
+      headers: { "Content-Type" => "application/json" }
+
+    assert_response :success
+    assert_equal "Site down", source.notifications.last.title
+  end
+
+  test "404s when the token does not match" do
+    body = '{"type":"payment_intent.succeeded"}'
+    post webhook_url(parser_type: "stripe", token: "wrong-token"),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "Stripe-Signature" => stripe_signature_header(body, "whsec_test_secret_abc")
+      }
+
+    assert_response :not_found
+  end
+
+  test "404s when parser_type does not match the source" do
+    source = sources(:stripe)
+    body = '{}'
+
+    post webhook_url(parser_type: "honeybadger", token: source.token),
+      params: body,
+      headers: { "Content-Type" => "application/json" }
+
+    assert_response :not_found
+  end
+
+end

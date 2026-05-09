@@ -1,0 +1,18 @@
+<main class="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-xs flex-col justify-center px-4 py-8 text-sm sm:px-6 sm:py-10">
+  <p class="text-base text-emerald-700">
+    <span class="text-neutral-500">$</span> pingrb
+  </p>
+  <h1 class="mt-6 text-xs tracking-wide text-neutral-500 uppercase">new password</h1>
+
+  <%= form_with url: password_path(params[:token]), method: :put, class: "mt-4 space-y-4" do |form| %>
+    <div>
+      <%= form.label :password, "new password", class: "sr-only" %>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "new password", maxlength: 72, class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <div>
+      <%= form.label :password_confirmation, "confirm password", class: "sr-only" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "confirm password", maxlength: 72, class: "block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+    <%= form.submit "save password", class: "w-full rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+  <% end %>
+</main>

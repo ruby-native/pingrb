@@ -1,0 +1,57 @@
+<%= turbo_stream_from @source %>
+
+<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <p class="text-xs tracking-wide text-neutral-500 uppercase">
+    <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>/<%= @source.parser_type %>
+  </p>
+  <h1 class="mt-2 flex items-center gap-2 text-lg text-neutral-900">
+    <span class="-translate-y-px text-emerald-700">❯</span>
+    <span><%= @source.name %></span>
+  </h1>
+
+  <details class="group mt-8 -mx-4 bg-neutral-50 px-5 py-4 sm:mx-0 sm:rounded-sm"<%= " open" if @notifications.empty? %>>
+    <summary class="flex cursor-pointer items-center justify-between list-none [&::-webkit-details-marker]:hidden">
+      <span class="text-xs tracking-wide text-neutral-500 uppercase">setup</span>
+      <span class="text-xs text-neutral-400 group-open:hidden">show</span>
+      <span class="hidden text-xs text-neutral-400 group-open:inline">hide</span>
+    </summary>
+    <div class="mt-4">
+      <%= render "setup_#{@source.parser_type}", source: @source %>
+    </div>
+    <div class="mt-8 border-t border-neutral-950/10 pt-5">
+      <p class="text-xs tracking-wide text-neutral-500 uppercase">test</p>
+      <div class="mt-4">
+        <%= render "test_#{@source.parser_type}", source: @source %>
+      </div>
+    </div>
+  </details>
+
+  <section class="mt-6 -mx-4 bg-neutral-50 px-5 pt-4 sm:mx-0 sm:rounded-sm">
+    <p class="text-xs tracking-wide text-neutral-500 uppercase tabular-nums">recent · <%= @notifications.count.to_s.rjust(4, "0") %></p>
+    <% if @notifications.any? %>
+      <ul role="list" class="mt-4 -mx-5">
+        <% @notifications.each do |n| %>
+          <li class="grid grid-cols-[1fr_auto] gap-x-4 px-5 py-3 sm:gap-x-6">
+            <div class="min-w-0">
+              <p class="truncate text-neutral-900"><%= n.title %></p>
+              <p class="mt-0.5 truncate text-xs text-neutral-500"><%= n.body %></p>
+              <% if n.url.present? %>
+                <%= link_to "open ↗", n.url, target: "_blank", rel: "noopener", class: "mt-1 inline-block text-xs text-emerald-700 hover:underline" %>
+              <% end %>
+            </div>
+            <span class="shrink-0 text-xs text-neutral-500 tabular-nums"><%= time_ago_in_words(n.received_at) %> ago</span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="py-8 text-center text-neutral-500">
+        <span class="text-neutral-400">$</span> no notifications yet. trigger one from <%= @source.parser_type.titleize %> to test.
+      </p>
+    <% end %>
+  </section>
+
+  <section class="mt-8 flex items-center justify-between">
+    <%= link_to "← back to sources", sources_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+    <%= button_to "[ remove source ]", @source, method: :delete, data: { turbo_confirm: "Remove #{@source.name}? This cannot be undone." }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", form: { class: "contents" } %>
+  </section>
+</main>
