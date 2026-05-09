@@ -96,7 +96,7 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
 
   test "404s when parser_type does not match the source" do
     source = sources(:stripe)
-    body = '{}'
+    body = "{}"
 
     post webhook_url(parser_type: "honeybadger", token: source.token),
       params: body,
@@ -104,5 +104,4 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
   end
-
 end
