@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html class="antialiased">
   <head>
-    <title><%= content_for(:title) || "pingrb" %></title>
+    <%
+      default_title = "pingrb — a tiny push notification app to stay on top of your indie business"
+      default_description = "I wanted alerts on my phone for the dev tools I use. Nothing out there was quite right, so I built this."
+      page_title = content_for?(:title) ? content_for(:title) : default_title
+      page_description = content_for?(:description) ? content_for(:description) : default_description
+    %>
+    <title><%= page_title %></title>
+    <meta name="description" content="<%= page_description %>">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="pingrb">
@@ -9,6 +16,23 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+    <% og_image_url = image_url("og.png") %>
+    <meta property="og:title" content="<%= page_title %>">
+    <meta property="og:description" content="<%= page_description %>">
+    <meta property="og:url" content="<%= request.url %>">
+    <meta property="og:image" content="<%= og_image_url %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="628">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="pingrb">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= page_title %>">
+    <meta name="twitter:description" content="<%= page_description %>">
+    <meta name="twitter:image" content="<%= og_image_url %>">
+    <meta name="twitter:site" content="@joemasilotti">
+    <meta name="twitter:creator" content="@joemasilotti">
 
     <%= yield :head %>
 
