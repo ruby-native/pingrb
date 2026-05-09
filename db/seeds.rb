@@ -4,22 +4,33 @@ user.password_confirmation = "password"
 user.save!
 puts "Seeded user: #{user.email_address}"
 
-stripe = user.sources.find_or_create_by!(parser_type: "stripe") do |s|
-  s.name = "Stripe production"
+stripe_active = user.sources.find_or_create_by!(name: "Stripe production") do |s|
+  s.parser_type = "stripe"
+  s.signing_secret = "whsec_dev_active"
 end
 
-honeybadger = user.sources.find_or_create_by!(parser_type: "honeybadger") do |s|
-  s.name = "Honeybadger"
+stripe_pending = user.sources.find_or_create_by!(name: "Stripe staging") do |s|
+  s.parser_type = "stripe"
+  s.signing_secret = "whsec_dev_pending"
 end
 
-if stripe.notifications.empty?
+stripe_unconfigured = user.sources.find_or_create_by!(name: "Stripe sandbox") do |s|
+  s.parser_type = "stripe"
+  # no signing_secret — index should show "needs setup"
+end
+
+honeybadger = user.sources.find_or_create_by!(name: "Honeybadger") do |s|
+  s.parser_type = "honeybadger"
+end
+
+if stripe_active.notifications.empty?
   [
     [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
     [ "New payment", "$199.00 USD from indie@example.com", 3.hours.ago ],
     [ "Subscription cancelled", "leaver@example.com", 1.day.ago ],
     [ "Dispute opened", "$25.00 disputed", 2.days.ago ]
   ].each do |title, body, at|
-    stripe.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+    stripe_active.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
   end
 end
 
