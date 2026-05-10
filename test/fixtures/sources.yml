@@ -10,3 +10,9 @@ honeybadger:
   name: Honeybadger production
   parser_type: honeybadger
   token: honeybadger-token-def456
+
+hatchbox:
+  user: one
+  name: pingrb production
+  parser_type: hatchbox
+  token: hatchbox-token-ghi789

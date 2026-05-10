@@ -1,6 +1,6 @@
 class Source < ApplicationRecord
-  PARSER_TYPES = %w[stripe honeybadger].freeze
-  CREATABLE_PARSER_TYPES = %w[stripe].freeze
+  PARSER_TYPES = %w[stripe honeybadger hatchbox].freeze
+  CREATABLE_PARSER_TYPES = %w[stripe hatchbox].freeze
 
   belongs_to :user
   has_many :notifications, dependent: :destroy

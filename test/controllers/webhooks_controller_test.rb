@@ -65,6 +65,18 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "creates a notification from a Hatchbox failed deploy script (form-encoded)" do
+    source = sources(:hatchbox)
+
+    post webhook_url(parser_type: "hatchbox", token: source.token),
+      params: { branch: "main", revision: "a1b2c3d4e5f6", log_id: "42" }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "Deploy failed", notification.title
+    assert_equal "main · a1b2c3d", notification.body
+  end
+
   test "creates a notification from a Honeybadger webhook (unsigned)" do
     source = sources(:honeybadger)
     payload = {

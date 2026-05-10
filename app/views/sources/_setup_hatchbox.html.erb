@@ -1,0 +1,24 @@
+<ol class="mt-4 space-y-4 text-neutral-700">
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">01</span>
+    <div>
+      <p class="text-neutral-900">Open your app in <%= link_to "Hatchbox", "https://app.hatchbox.io/", target: "_blank", rel: "noopener", class: "text-emerald-700 hover:underline" %>.</p>
+      <p class="mt-1 text-xs text-neutral-500">Settings &raquo; Deploys &raquo; Failed Deploy Script.</p>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">02</span>
+    <div class="min-w-0">
+      <p class="text-neutral-900">Paste this script. Hatchbox runs it whenever a deploy fails.</p>
+      <%= render "webhook_url_field", url: hatchbox_failed_deploy_script(source) %>
+      <p class="mt-2 text-xs text-neutral-500">Hatchbox sets <code class="text-neutral-700">$BRANCH</code>, <code class="text-neutral-700">$REVISION</code>, and <code class="text-neutral-700">$LOG_ID</code> for you.</p>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">03</span>
+    <div>
+      <p class="text-neutral-900">Save the app.</p>
+      <p class="mt-1 text-xs text-neutral-500">Hatchbox doesn't sign the request, so the token in the URL is the shared secret. Don't share the URL.</p>
+    </div>
+  </li>
+</ol>
