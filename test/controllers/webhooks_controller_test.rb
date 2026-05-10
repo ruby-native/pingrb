@@ -65,6 +65,47 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  def cal_signature(body, secret)
+    OpenSSL::HMAC.hexdigest("SHA256", secret, body)
+  end
+
+  test "creates a notification from a verified Cal.com webhook" do
+    source = sources(:cal)
+    payload = {
+      "triggerEvent" => "BOOKING_CREATED",
+      "payload" => {
+        "uid" => "abc123",
+        "startTime" => "2026-08-21T12:00:00Z",
+        "attendees" => [ { "name" => "Ada Lovelace", "email" => "ada@example.com", "timeZone" => "UTC" } ]
+      }
+    }
+    body = payload.to_json
+
+    post webhook_url(parser_type: "cal", token: source.token),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "X-Cal-Signature-256" => cal_signature(body, source.signing_secret)
+      }
+
+    assert_response :success
+    assert_equal "New booking", source.notifications.last.title
+  end
+
+  test "rejects a Cal.com webhook with an invalid signature" do
+    source = sources(:cal)
+    body = '{"triggerEvent":"BOOKING_CREATED","payload":{}}'
+
+    post webhook_url(parser_type: "cal", token: source.token),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "X-Cal-Signature-256" => "deadbeef"
+      }
+
+    assert_response :unauthorized
+  end
+
   test "creates a notification from a Hatchbox failed deploy script (form-encoded)" do
     source = sources(:hatchbox)
 

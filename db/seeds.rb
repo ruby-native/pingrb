@@ -27,6 +27,11 @@ hatchbox = user.sources.find_or_create_by!(name: "pingrb production") do |s|
   s.parser_type = "hatchbox"
 end
 
+cal = user.sources.find_or_create_by!(name: "Cal.com") do |s|
+  s.parser_type = "cal"
+  s.signing_secret = "cal_dev_secret"
+end
+
 if stripe_active.notifications.empty?
   [
     [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
@@ -53,6 +58,15 @@ if hatchbox.notifications.empty?
     [ "Deploy failed", "main · a1b2c3d", 6.hours.ago ]
   ].each do |title, body, at|
     hatchbox.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+  end
+end
+
+if cal.notifications.empty?
+  [
+    [ "New booking", "Ada Lovelace · Tue Aug 11, 2:00pm", 30.minutes.ago ],
+    [ "Booking cancelled", "noreply@example.com · Wed Aug 12, 9:00am", 4.hours.ago ]
+  ].each do |title, body, at|
+    cal.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
   end
 end
 
