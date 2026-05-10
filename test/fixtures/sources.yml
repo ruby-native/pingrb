@@ -30,3 +30,9 @@ github:
   parser_type: github
   token: github-token-mno345
   signing_secret: github_test_secret
+
+uptime_robot:
+  user: one
+  name: pingrb monitors
+  parser_type: uptime_robot
+  token: uptime-token-pqr678
