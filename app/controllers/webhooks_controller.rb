@@ -9,7 +9,7 @@ class WebhooksController < ApplicationController
     return head :unauthorized unless source.parser.verify(request, body, source.signing_secret)
 
     payload = parse_body(body)
-    result = source.parser.parse(payload)
+    result = source.parser.parse(payload, request: request)
 
     source.notifications.create!(
       title: result.title,

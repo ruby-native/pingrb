@@ -23,3 +23,10 @@ cal:
   parser_type: cal
   token: cal-token-jkl012
   signing_secret: cal_test_secret
+
+github:
+  user: one
+  name: pingrb repo
+  parser_type: github
+  token: github-token-mno345
+  signing_secret: github_test_secret

@@ -32,6 +32,11 @@ cal = user.sources.find_or_create_by!(name: "Cal.com") do |s|
   s.signing_secret = "cal_dev_secret"
 end
 
+github = user.sources.find_or_create_by!(name: "pingrb repo") do |s|
+  s.parser_type = "github"
+  s.signing_secret = "github_dev_secret"
+end
+
 if stripe_active.notifications.empty?
   [
     [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
@@ -67,6 +72,15 @@ if cal.notifications.empty?
     [ "Booking cancelled", "noreply@example.com · Wed Aug 12, 9:00am", 4.hours.ago ]
   ].each do |title, body, at|
     cal.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+  end
+end
+
+if github.notifications.empty?
+  [
+    [ "New issue", "ruby-native/pingrb #17 · Webhooks not arriving", 22.minutes.ago ],
+    [ "New star", "ruby-native/pingrb", 5.hours.ago ]
+  ].each do |title, body, at|
+    github.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
   end
 end
 

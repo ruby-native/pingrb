@@ -69,6 +69,10 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     OpenSSL::HMAC.hexdigest("SHA256", secret, body)
   end
 
+  def github_signature(body, secret)
+    "sha256=" + OpenSSL::HMAC.hexdigest("SHA256", secret, body)
+  end
+
   test "creates a notification from a verified Cal.com webhook" do
     source = sources(:cal)
     payload = {
@@ -101,6 +105,44 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
       headers: {
         "Content-Type" => "application/json",
         "X-Cal-Signature-256" => "deadbeef"
+      }
+
+    assert_response :unauthorized
+  end
+
+  test "creates a notification from a verified GitHub issues webhook" do
+    source = sources(:github)
+    payload = {
+      "action" => "opened",
+      "issue" => { "number" => 42, "title" => "Webhooks broken", "html_url" => "https://github.com/foo/bar/issues/42" },
+      "repository" => { "full_name" => "foo/bar" }
+    }
+    body = payload.to_json
+
+    post webhook_url(parser_type: "github", token: source.token),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "X-GitHub-Event" => "issues",
+        "X-Hub-Signature-256" => github_signature(body, source.signing_secret)
+      }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "New issue", notification.title
+    assert_equal "foo/bar #42 · Webhooks broken", notification.body
+  end
+
+  test "rejects a GitHub webhook with an invalid signature" do
+    source = sources(:github)
+    body = '{"action":"opened","issue":{}}'
+
+    post webhook_url(parser_type: "github", token: source.token),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "X-GitHub-Event" => "issues",
+        "X-Hub-Signature-256" => "sha256=deadbeef"
       }
 
     assert_response :unauthorized

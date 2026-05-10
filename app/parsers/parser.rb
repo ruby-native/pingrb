@@ -1,8 +1,8 @@
 class Parser
   Result = Struct.new(:title, :body, :url, keyword_init: true)
 
-  def self.parse(payload)
-    new(payload).parse
+  def self.parse(payload, request: nil)
+    new(payload, request: request).parse
   end
 
   def self.verify(request, body, secret)
@@ -13,8 +13,9 @@ class Parser
     false
   end
 
-  def initialize(payload)
+  def initialize(payload, request: nil)
     @payload = payload
+    @request = request
   end
 
   def parse
@@ -23,5 +24,5 @@ class Parser
 
   private
 
-  attr_reader :payload
+  attr_reader :payload, :request
 end
