@@ -1,4 +1,12 @@
 class StripeParser < Parser
+  def self.verify(request, body, secret)
+    StripeSignature.verify(body, request.headers["Stripe-Signature"], secret)
+  end
+
+  def self.requires_signing_secret?
+    true
+  end
+
   def parse
     object = payload.dig("data", "object") || {}
 
