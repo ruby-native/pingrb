@@ -5,6 +5,14 @@ class Parser
     new(payload).parse
   end
 
+  def self.verify(request, body, secret)
+    true
+  end
+
+  def self.requires_signing_secret?
+    false
+  end
+
   def initialize(payload)
     @payload = payload
   end

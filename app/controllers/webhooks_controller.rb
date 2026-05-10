@@ -6,9 +6,9 @@ class WebhooksController < ApplicationController
     source = Source.find_by!(parser_type: params[:parser_type], token: params[:token])
     body = request.body.read
 
-    return head :unauthorized unless verify_signature(source, body)
+    return head :unauthorized unless source.parser.verify(request, body, source.signing_secret)
 
-    payload = JSON.parse(body)
+    payload = parse_body(body)
     result = source.parser.parse(payload)
 
     source.notifications.create!(
@@ -25,12 +25,11 @@ class WebhooksController < ApplicationController
 
   private
 
-  def verify_signature(source, body)
-    case source.parser_type
-    when "stripe"
-      StripeSignature.verify(body, request.headers["Stripe-Signature"], source.signing_secret)
+  def parse_body(body)
+    if request.media_type == "application/x-www-form-urlencoded"
+      Rack::Utils.parse_nested_query(body)
     else
-      true
+      JSON.parse(body)
     end
   end
 end
