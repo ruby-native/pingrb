@@ -23,6 +23,10 @@ honeybadger = user.sources.find_or_create_by!(name: "Honeybadger") do |s|
   s.parser_type = "honeybadger"
 end
 
+hatchbox = user.sources.find_or_create_by!(name: "pingrb production") do |s|
+  s.parser_type = "hatchbox"
+end
+
 if stripe_active.notifications.empty?
   [
     [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
@@ -41,6 +45,14 @@ if honeybadger.notifications.empty?
     [ "Site recovered", "pingrb.com", 58.minutes.ago ]
   ].each do |title, body, at|
     honeybadger.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+  end
+end
+
+if hatchbox.notifications.empty?
+  [
+    [ "Deploy failed", "main · a1b2c3d", 6.hours.ago ]
+  ].each do |title, body, at|
+    hatchbox.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
   end
 end
 
