@@ -32,6 +32,11 @@ cal = user.sources.find_or_create_by!(name: "Cal.com") do |s|
   s.signing_secret = "cal_dev_secret"
 end
 
+uptime_robot = user.sources.find_or_create_by!(name: "pingrb monitors") do |s|
+  s.parser_type = "uptime_robot"
+end
+
+
 if stripe_active.notifications.empty?
   [
     [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
@@ -69,5 +74,15 @@ if cal.notifications.empty?
     cal.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
   end
 end
+
+if uptime_robot.notifications.empty?
+  [
+    [ "Site down", "pingrb.com · https://pingrb.com", 12.minutes.ago ],
+    [ "Site recovered", "pingrb.com · https://pingrb.com", 9.minutes.ago ]
+  ].each do |title, body, at|
+    uptime_robot.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+  end
+end
+
 
 puts "Seeded #{user.sources.count} sources with #{Notification.count} notifications"
