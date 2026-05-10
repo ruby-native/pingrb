@@ -16,3 +16,10 @@ hatchbox:
   name: pingrb production
   parser_type: hatchbox
   token: hatchbox-token-ghi789
+
+cal:
+  user: one
+  name: Cal.com
+  parser_type: cal
+  token: cal-token-jkl012
+  signing_secret: cal_test_secret
