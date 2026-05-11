@@ -1,5 +1,0 @@
-<p class="text-neutral-700">UptimeRobot has a <strong class="font-medium">Test</strong> button on the alert contact. Click it to fire a synthetic Down/Up event.</p>
-
-<p class="mt-3 text-xs text-neutral-500">Or fire one by hand with curl:</p>
-
-<pre class="mt-2 overflow-x-auto rounded-sm border border-neutral-950/10 bg-white px-3 py-2 text-xs text-neutral-900">curl -X POST "<%= public_webhook_url(parser_type: source.parser_type, token: source.token) %>" -d "monitor=pingrb.com&url=https://pingrb.com&type=Down&details=down for 1 minute"</pre>

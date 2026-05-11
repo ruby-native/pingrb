@@ -1,1 +1,0 @@
-monitor=pingrb.com&url=https%3A%2F%2Fpingrb.com&type=Up&details=back+online+after+3+minutes

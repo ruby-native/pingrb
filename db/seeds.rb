@@ -26,9 +26,6 @@ sources = {
     s.parser_type = "cal"
     s.signing_secret = "cal_dev_secret"
   },
-  uptime_robot: user.sources.find_or_create_by!(name: "pingrb monitors") { |s|
-    s.parser_type = "uptime_robot"
-  },
   custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
     s.parser_type = "custom"
   }
@@ -52,10 +49,6 @@ webhook_seeds = {
   cal: [
     [ "cal/booking_created.json", 30.minutes.ago ],
     [ "cal/booking_cancelled.json", 4.hours.ago ]
-  ],
-  uptime_robot: [
-    [ "uptime_robot/site_down.txt", 12.minutes.ago ],
-    [ "uptime_robot/site_recovered.txt", 9.minutes.ago ]
   ],
   custom: [
     [ "custom/job_done.json", 18.minutes.ago ],

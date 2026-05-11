@@ -106,19 +106,6 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "creates a notification from an UptimeRobot Down alert (form-encoded)" do
-    source = sources(:uptime_robot)
-
-    post webhook_url(parser_type: "uptime_robot", token: source.token),
-      params: { monitor: "pingrb.com", url: "https://pingrb.com", type: "Down", details: "down for 1 minute" }
-
-    assert_response :success
-    notification = source.notifications.last
-    assert_equal "Site down", notification.title
-    assert_equal "pingrb.com · https://pingrb.com", notification.body
-  end
-
-
   test "creates a notification from a Custom JSON webhook" do
     source = sources(:custom)
     payload = { "title" => "Job done", "body" => "backfill finished", "url" => "https://example.com/jobs/42" }
