@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_action :set_source, only: %i[show update destroy]
+  before_action :set_source, only: %i[show update destroy rotate]
 
   def index
     @sources = Current.user.sources.order(created_at: :desc)
@@ -33,6 +33,11 @@ class SourcesController < ApplicationController
   def destroy
     @source.destroy
     redirect_to sources_path, notice: "Source removed.", status: :see_other
+  end
+
+  def rotate
+    @source.regenerate_token
+    redirect_to @source, notice: "Webhook URL rotated. Update the source with the new URL."
   end
 
   private

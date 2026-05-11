@@ -43,6 +43,16 @@ class SourcesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to sources_path
   end
 
+  test "rotates the webhook URL token" do
+    source = sources(:hatchbox)
+    old_token = source.token
+
+    post rotate_source_path(source)
+
+    assert_redirected_to source
+    assert_not_equal old_token, source.reload.token
+  end
+
   test "404s when accessing another user's source" do
     other_source = Source.create!(user: users(:two), name: "Other", parser_type: "stripe")
     get source_path(other_source)
