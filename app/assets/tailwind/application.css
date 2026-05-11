@@ -14,4 +14,8 @@
   [type="reset"]:not(:disabled) {
     cursor: pointer;
   }
+
+  [data-native-app] main {
+    padding-top: 0.5rem;
+  }
 }
