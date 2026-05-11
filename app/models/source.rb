@@ -1,6 +1,6 @@
 class Source < ApplicationRecord
-  PARSER_TYPES = %w[stripe honeybadger hatchbox cal custom].freeze
-  CREATABLE_PARSER_TYPES = %w[stripe hatchbox cal custom].freeze
+  PARSER_TYPES = %w[stripe honeybadger hatchbox cal status_cake custom].freeze
+  CREATABLE_PARSER_TYPES = %w[stripe hatchbox cal status_cake custom].freeze
 
   belongs_to :user
   has_many :notifications, dependent: :destroy

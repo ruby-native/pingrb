@@ -26,6 +26,9 @@ sources = {
     s.parser_type = "cal"
     s.signing_secret = "cal_dev_secret"
   },
+  status_cake: user.sources.find_or_create_by!(name: "pingrb monitors") { |s|
+    s.parser_type = "status_cake"
+  },
   custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
     s.parser_type = "custom"
   }
@@ -49,6 +52,10 @@ webhook_seeds = {
   cal: [
     [ "cal/booking_created.json", 30.minutes.ago ],
     [ "cal/booking_cancelled.json", 4.hours.ago ]
+  ],
+  status_cake: [
+    [ "status_cake/site_down.txt", 12.minutes.ago ],
+    [ "status_cake/site_recovered.txt", 9.minutes.ago ]
   ],
   custom: [
     [ "custom/job_done.json", 18.minutes.ago ],

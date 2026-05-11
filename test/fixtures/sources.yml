@@ -24,6 +24,12 @@ cal:
   token: cal-token-jkl012
   signing_secret: cal_test_secret
 
+status_cake:
+  user: one
+  name: pingrb monitors
+  parser_type: status_cake
+  token: statuscake-token-vwx234
+
 custom:
   user: one
   name: Background jobs

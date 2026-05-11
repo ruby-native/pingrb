@@ -106,6 +106,18 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "creates a notification from a StatusCake Down alert (form-encoded)" do
+    source = sources(:status_cake)
+
+    post webhook_url(parser_type: "status_cake", token: source.token),
+      params: { Status: "Down", URL: "https://pingrb.com", Name: "pingrb.com", StatusCode: "503" }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "Site down", notification.title
+    assert_equal "pingrb.com · https://pingrb.com · 503", notification.body
+  end
+
   test "creates a notification from a Custom JSON webhook" do
     source = sources(:custom)
     payload = { "title" => "Job done", "body" => "backfill finished", "url" => "https://example.com/jobs/42" }

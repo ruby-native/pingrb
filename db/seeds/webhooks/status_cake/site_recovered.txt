@@ -1,0 +1,1 @@
+Token=abc123hash&Status=Up&StatusCode=200&URL=https%3A%2F%2Fpingrb.com&IP=1.2.3.4&Name=pingrb.com&Checkrate=300
