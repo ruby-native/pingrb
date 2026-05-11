@@ -40,3 +40,6 @@
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
 
+
+# Ruby Native
+.ruby_native/

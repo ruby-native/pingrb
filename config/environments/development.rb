@@ -3,8 +3,9 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # Allow the named Cloudflare tunnel so real webhooks can reach the local app.
+  # Allow Cloudflare tunnels: named for webhooks, quick for Ruby Native preview.
   config.hosts << "pingrb.rubynative.com"
+  config.hosts << ".trycloudflare.com"
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true

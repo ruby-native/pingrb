@@ -9,7 +9,7 @@
     %>
     <title><%= page_title %></title>
     <meta name="description" content="<%= page_description %>">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="pingrb">
     <meta name="mobile-web-app-capable" content="yes">
@@ -41,12 +41,13 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :ruby_native %>
     <%= javascript_importmap_tags %>
     <%= render "shared/fathom" %>
   </head>
 
   <body class="isolate min-h-dvh bg-white font-sans text-sm text-neutral-900">
-    <% if authenticated? %>
+    <% if authenticated? && !native_app? %>
       <%= render "shared/header" %>
     <% end %>
     <%= render "shared/flash" %>

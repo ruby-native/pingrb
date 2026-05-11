@@ -65,3 +65,5 @@ end
 gem "tailwindcss-rails", "~> 4.4"
 
 gem "postmark-rails", "~> 0.22.1"
+
+gem "ruby_native"
