@@ -9,7 +9,7 @@
     <span><%= @source.name %></span>
   </h1>
 
-  <% needs_setup = @source.parser.requires_signing_secret? && @source.signing_secret.blank? %>
+  <% needs_setup = (@source.parser.requires_signing_secret? && @source.signing_secret.blank?) || @notifications.none? %>
   <details class="group mt-8 -mx-4 bg-neutral-50 px-5 py-4 sm:mx-0 sm:rounded-sm"<%= " open" if needs_setup %>>
     <summary class="flex cursor-pointer items-center justify-between list-none [&::-webkit-details-marker]:hidden">
       <span class="text-xs tracking-wide text-neutral-500 uppercase">setup</span>
