@@ -1,5 +1,14 @@
 <%= turbo_stream_from @source %>
 
+<%= native_navbar_tag @source.name do |navbar| %>
+  <% navbar.button icon: "ellipsis", position: :trailing do |menu| %>
+    <% unless @source.parser.requires_signing_secret? %>
+      <% menu.item "Rotate URL", click: "[data-rotate-button]" %>
+    <% end %>
+    <% menu.item "Remove source", click: "[data-remove-button]" %>
+  <% end %>
+<% end %>
+
 <main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
   <p class="text-xs tracking-wide text-neutral-500 uppercase">
     <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>/<%= @source.parser_type %>
@@ -51,13 +60,10 @@
     <% end %>
   </section>
 
-  <section class="mt-8 flex items-center justify-between gap-3">
-    <%= link_to "← back to sources", sources_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
-    <div class="flex items-center gap-2">
-      <% unless @source.parser.requires_signing_secret? %>
-        <%= button_to "[ rotate URL ]", rotate_source_path(@source), method: :post, data: { turbo_confirm: "Rotate the webhook URL? The old URL stops working immediately." }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
-      <% end %>
-      <%= button_to "[ remove source ]", @source, method: :delete, data: { turbo_confirm: "Remove #{@source.name}? This cannot be undone." }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", form: { class: "contents" } %>
-    </div>
+  <section class="mt-8 flex items-center justify-end gap-2<%= " hidden" if native_app? %>">
+    <% unless @source.parser.requires_signing_secret? %>
+      <%= button_to "[ rotate URL ]", rotate_source_path(@source), method: :post, data: { turbo_confirm: "Rotate the webhook URL? The old URL stops working immediately.", rotate_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
+    <% end %>
+    <%= button_to "[ remove source ]", @source, method: :delete, data: { turbo_confirm: "Remove #{@source.name}? This cannot be undone.", remove_button: "" }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", form: { class: "contents" } %>
   </section>
 </main>

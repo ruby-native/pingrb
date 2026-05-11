@@ -1,3 +1,7 @@
+<%= native_navbar_tag "~/sources" do |navbar| %>
+  <% navbar.button icon: "plus", href: new_source_path, position: :trailing %>
+<% end %>
+
 <main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
   <div class="flex flex-col items-start gap-3 pb-4 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
     <div>
@@ -7,7 +11,9 @@
         <span>ls --notifications</span>
       </h1>
     </div>
-    <%= link_to "[ + new source ]", new_source_path, class: "shrink-0 rounded-sm border border-emerald-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+    <% unless native_app? %>
+      <%= link_to "[ + new source ]", new_source_path, class: "shrink-0 rounded-sm border border-emerald-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+    <% end %>
   </div>
 
   <% if @sources.any? %>
