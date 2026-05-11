@@ -1,0 +1,1 @@
+monitor=pingrb.com&url=https%3A%2F%2Fpingrb.com&type=Down&details=down+for+1+minute

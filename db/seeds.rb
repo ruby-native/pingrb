@@ -4,96 +4,81 @@ user.password_confirmation = "password"
 user.save!
 puts "Seeded user: #{user.email_address}"
 
-stripe_active = user.sources.find_or_create_by!(name: "Stripe production") do |s|
-  s.parser_type = "stripe"
-  s.signing_secret = "whsec_dev_active"
-end
+sources = {
+  stripe_active: user.sources.find_or_create_by!(name: "Stripe production") { |s|
+    s.parser_type = "stripe"
+    s.signing_secret = "whsec_dev_active"
+  },
+  stripe_pending: user.sources.find_or_create_by!(name: "Stripe staging") { |s|
+    s.parser_type = "stripe"
+    s.signing_secret = "whsec_dev_pending"
+  },
+  stripe_unconfigured: user.sources.find_or_create_by!(name: "Stripe sandbox") { |s|
+    s.parser_type = "stripe"
+  },
+  honeybadger: user.sources.find_or_create_by!(name: "Honeybadger") { |s|
+    s.parser_type = "honeybadger"
+  },
+  hatchbox: user.sources.find_or_create_by!(name: "pingrb production") { |s|
+    s.parser_type = "hatchbox"
+  },
+  cal: user.sources.find_or_create_by!(name: "Cal.com") { |s|
+    s.parser_type = "cal"
+    s.signing_secret = "cal_dev_secret"
+  },
+  uptime_robot: user.sources.find_or_create_by!(name: "pingrb monitors") { |s|
+    s.parser_type = "uptime_robot"
+  },
+  custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
+    s.parser_type = "custom"
+  }
+}
 
-stripe_pending = user.sources.find_or_create_by!(name: "Stripe staging") do |s|
-  s.parser_type = "stripe"
-  s.signing_secret = "whsec_dev_pending"
-end
+webhook_seeds = {
+  stripe_active: [
+    [ "stripe/payment_intent_succeeded.json", 2.minutes.ago ],
+    [ "stripe/invoice_paid.json", 3.hours.ago ],
+    [ "stripe/subscription_deleted.json", 1.day.ago ],
+    [ "stripe/dispute_created.json", 2.days.ago ]
+  ],
+  honeybadger: [
+    [ "honeybadger/new_error.json", 14.minutes.ago ],
+    [ "honeybadger/site_down.json", 1.hour.ago ],
+    [ "honeybadger/site_recovered.json", 58.minutes.ago ]
+  ],
+  hatchbox: [
+    [ "hatchbox/deploy_failed.txt", 6.hours.ago ]
+  ],
+  cal: [
+    [ "cal/booking_created.json", 30.minutes.ago ],
+    [ "cal/booking_cancelled.json", 4.hours.ago ]
+  ],
+  uptime_robot: [
+    [ "uptime_robot/site_down.txt", 12.minutes.ago ],
+    [ "uptime_robot/site_recovered.txt", 9.minutes.ago ]
+  ],
+  custom: [
+    [ "custom/job_done.json", 18.minutes.ago ],
+    [ "custom/agent_error.json", 2.hours.ago ]
+  ]
+}
 
-stripe_unconfigured = user.sources.find_or_create_by!(name: "Stripe sandbox") do |s|
-  s.parser_type = "stripe"
-  # no signing_secret — index should show "needs setup"
-end
+webhook_seeds.each do |source_key, entries|
+  source = sources[source_key]
+  next if source.notifications.any?
 
-honeybadger = user.sources.find_or_create_by!(name: "Honeybadger") do |s|
-  s.parser_type = "honeybadger"
-end
+  entries.each do |fixture, received_at|
+    body = File.read(Rails.root.join("db/seeds/webhooks", fixture))
+    payload = fixture.end_with?(".json") ? JSON.parse(body) : Rack::Utils.parse_nested_query(body)
+    result = source.parser.parse(payload)
 
-hatchbox = user.sources.find_or_create_by!(name: "pingrb production") do |s|
-  s.parser_type = "hatchbox"
-end
-
-cal = user.sources.find_or_create_by!(name: "Cal.com") do |s|
-  s.parser_type = "cal"
-  s.signing_secret = "cal_dev_secret"
-end
-
-uptime_robot = user.sources.find_or_create_by!(name: "pingrb monitors") do |s|
-  s.parser_type = "uptime_robot"
-end
-
-custom = user.sources.find_or_create_by!(name: "Background jobs") do |s|
-  s.parser_type = "custom"
-end
-
-
-if stripe_active.notifications.empty?
-  [
-    [ "New payment", "$49.99 USD from joe@example.com", 2.minutes.ago ],
-    [ "New payment", "$199.00 USD from indie@example.com", 3.hours.ago ],
-    [ "Subscription cancelled", "leaver@example.com", 1.day.ago ],
-    [ "Dispute opened", "$25.00 disputed", 2.days.ago ]
-  ].each do |title, body, at|
-    stripe_active.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
-  end
-end
-
-if honeybadger.notifications.empty?
-  [
-    [ "New error", "ActiveRecord::RecordNotFound", 14.minutes.ago ],
-    [ "Site down", "pingrb.com", 1.hour.ago ],
-    [ "Site recovered", "pingrb.com", 58.minutes.ago ]
-  ].each do |title, body, at|
-    honeybadger.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
-  end
-end
-
-if hatchbox.notifications.empty?
-  [
-    [ "Deploy failed", "main · a1b2c3d", 6.hours.ago ]
-  ].each do |title, body, at|
-    hatchbox.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
-  end
-end
-
-if cal.notifications.empty?
-  [
-    [ "New booking", "Ada Lovelace · Tue Aug 11, 2:00pm", 30.minutes.ago ],
-    [ "Booking cancelled", "noreply@example.com · Wed Aug 12, 9:00am", 4.hours.ago ]
-  ].each do |title, body, at|
-    cal.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
-  end
-end
-
-if uptime_robot.notifications.empty?
-  [
-    [ "Site down", "pingrb.com · https://pingrb.com", 12.minutes.ago ],
-    [ "Site recovered", "pingrb.com · https://pingrb.com", 9.minutes.ago ]
-  ].each do |title, body, at|
-    uptime_robot.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
-  end
-end
-
-if custom.notifications.empty?
-  [
-    [ "Job done", "backfill finished · 12,431 rows", 18.minutes.ago ],
-    [ "Agent error", "ResearchAgent timed out on https://example.com", 2.hours.ago ]
-  ].each do |title, body, at|
-    custom.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+    source.notifications.create!(
+      title: result.title,
+      body: result.body,
+      url: result.url,
+      received_at: received_at,
+      raw_payload: body
+    )
   end
 end
 

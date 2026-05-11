@@ -1,0 +1,9 @@
+{
+  "event": "occurred",
+  "fault": {
+    "klass": "ActiveRecord::RecordNotFound",
+    "message": "Couldn't find User with 'id'=42",
+    "url": "https://app.honeybadger.io/projects/12345/faults/67890"
+  },
+  "project": { "name": "pingrb" }
+}

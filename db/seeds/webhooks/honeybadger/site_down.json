@@ -1,0 +1,5 @@
+{
+  "event": "down",
+  "message": "[pingrb] Site is down.",
+  "site": { "name": "pingrb.com", "url": "https://pingrb.com" }
+}

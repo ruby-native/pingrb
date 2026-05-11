@@ -1,0 +1,12 @@
+{
+  "id": "evt_3OYDr",
+  "type": "payment_intent.succeeded",
+  "data": {
+    "object": {
+      "id": "pi_3OYDrAbCdEf",
+      "amount": 4999,
+      "currency": "usd",
+      "receipt_email": "joe@example.com"
+    }
+  }
+}

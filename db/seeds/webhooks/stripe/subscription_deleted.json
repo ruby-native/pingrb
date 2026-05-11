@@ -1,0 +1,13 @@
+{
+  "id": "evt_sub_deleted",
+  "type": "customer.subscription.deleted",
+  "data": {
+    "object": {
+      "id": "sub_1OYZxYz",
+      "customer_email": "leaver@example.com",
+      "items": {
+        "data": []
+      }
+    }
+  }
+}

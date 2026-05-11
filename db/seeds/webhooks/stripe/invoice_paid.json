@@ -1,0 +1,12 @@
+{
+  "id": "evt_invoice_paid",
+  "type": "invoice.paid",
+  "data": {
+    "object": {
+      "id": "in_1OYABcDef",
+      "amount_paid": 19900,
+      "currency": "usd",
+      "customer_email": "indie@example.com"
+    }
+  }
+}

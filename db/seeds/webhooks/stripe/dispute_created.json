@@ -1,0 +1,11 @@
+{
+  "id": "evt_dispute",
+  "type": "charge.dispute.created",
+  "data": {
+    "object": {
+      "id": "dp_1OAbCd",
+      "amount": 2500,
+      "currency": "usd"
+    }
+  }
+}
