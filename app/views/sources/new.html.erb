@@ -1,17 +1,11 @@
 <%= native_navbar_tag "New source" %>
 
 <main class="mx-auto max-w-md px-4 py-8 text-sm sm:px-6 sm:py-10">
-  <% unless native_app? %>
-    <p class="text-xs tracking-wide text-neutral-500 uppercase">
-      <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>
-    </p>
-    <h1 class="mt-2 flex items-center gap-2 text-lg text-neutral-900">
-      <span class="-translate-y-px text-emerald-700">❯</span>
-      <span>new source</span>
-    </h1>
+  <%= render "shared/page_header", title: "new source" do %>
+    <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>
   <% end %>
 
-  <%= form_with model: @source, class: "mt-8 space-y-5" do |form| %>
+  <%= form_with model: @source, class: "space-y-5" do |form| %>
     <% if @source.errors.any? %>
       <div class="border-l-2 border-red-700 bg-red-50 px-3 py-2 text-red-900">
         <span class="text-xs text-red-700">[err]</span>

@@ -47,7 +47,7 @@
   </head>
 
   <body class="native-inset isolate min-h-dvh bg-white font-sans text-sm text-neutral-900">
-    <% if authenticated? && !native_app? %>
+    <% if authenticated? %>
       <%= render "shared/header" %>
     <% end %>
     <%= render "shared/flash" %>

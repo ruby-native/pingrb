@@ -1,0 +1,10 @@
+<header class="native-hidden mb-8<%= " flex flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4" if local_assigns[:action] %>">
+  <div>
+    <p class="text-xs tracking-wide text-neutral-500 uppercase"><%= yield %></p>
+    <h1 class="mt-2 flex items-center gap-2 text-lg text-neutral-900">
+      <span class="-translate-y-px text-emerald-700">❯</span>
+      <span><%= title %></span>
+    </h1>
+  </div>
+  <%= action if local_assigns[:action] %>
+</header>
