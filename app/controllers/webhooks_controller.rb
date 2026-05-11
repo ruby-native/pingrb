@@ -4,7 +4,7 @@ class WebhooksController < ApplicationController
 
   def create
     source = Source.find_by!(parser_type: params[:parser_type], token: params[:token])
-    body = request.body.read
+    body = request.raw_post
 
     return head :unauthorized unless source.parser.verify(request, body, source.signing_secret)
 
