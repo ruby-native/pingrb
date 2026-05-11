@@ -119,6 +119,21 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  test "creates a notification from a Custom JSON webhook" do
+    source = sources(:custom)
+    payload = { "title" => "Job done", "body" => "backfill finished", "url" => "https://example.com/jobs/42" }
+
+    post webhook_url(parser_type: "custom", token: source.token),
+      params: payload.to_json,
+      headers: { "Content-Type" => "application/json" }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "Job done", notification.title
+    assert_equal "backfill finished", notification.body
+    assert_equal "https://example.com/jobs/42", notification.url
+  end
+
   test "creates a notification from a Hatchbox failed deploy script (form-encoded)" do
     source = sources(:hatchbox)
 

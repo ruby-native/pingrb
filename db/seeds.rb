@@ -36,6 +36,10 @@ uptime_robot = user.sources.find_or_create_by!(name: "pingrb monitors") do |s|
   s.parser_type = "uptime_robot"
 end
 
+custom = user.sources.find_or_create_by!(name: "Background jobs") do |s|
+  s.parser_type = "custom"
+end
+
 
 if stripe_active.notifications.empty?
   [
@@ -84,5 +88,13 @@ if uptime_robot.notifications.empty?
   end
 end
 
+if custom.notifications.empty?
+  [
+    [ "Job done", "backfill finished · 12,431 rows", 18.minutes.ago ],
+    [ "Agent error", "ResearchAgent timed out on https://example.com", 2.hours.ago ]
+  ].each do |title, body, at|
+    custom.notifications.create!(title:, body:, received_at: at, raw_payload: "{}")
+  end
+end
 
 puts "Seeded #{user.sources.count} sources with #{Notification.count} notifications"

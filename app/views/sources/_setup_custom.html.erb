@@ -1,0 +1,24 @@
+<ol class="mt-4 space-y-4 text-neutral-700">
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">01</span>
+    <div class="min-w-0">
+      <p class="text-neutral-900">POST a JSON body to this URL from anywhere.</p>
+      <%= render "webhook_url_field", url: public_webhook_url(parser_type: source.parser_type, token: source.token) %>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">02</span>
+    <div class="min-w-0">
+      <p class="text-neutral-900">Send a payload with the fields you want shown.</p>
+      <p class="mt-1 text-xs text-neutral-500"><code class="text-neutral-700">title</code> and <code class="text-neutral-700">body</code> appear in the push. <code class="text-neutral-700">url</code> is optional and becomes the "open" link.</p>
+      <%= render "webhook_url_field", url: custom_curl_example(source) %>
+    </div>
+  </li>
+  <li class="grid grid-cols-[auto_1fr] gap-x-4">
+    <span class="text-emerald-700 tabular-nums">03</span>
+    <div>
+      <p class="text-neutral-900">That's it.</p>
+      <p class="mt-1 text-xs text-neutral-500">No signature, no shared secret. The token in the URL is the only auth, so don't share the URL. Rotate it below if it ever leaks.</p>
+    </div>
+  </li>
+</ol>

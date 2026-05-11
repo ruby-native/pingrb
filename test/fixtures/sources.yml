@@ -29,3 +29,9 @@ uptime_robot:
   name: pingrb monitors
   parser_type: uptime_robot
   token: uptime-token-pqr678
+
+custom:
+  user: one
+  name: Background jobs
+  parser_type: custom
+  token: custom-token-stu901
