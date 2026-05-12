@@ -83,6 +83,7 @@ webhook_seeds.each do |source_key, entries|
       body: result.body,
       url: result.url,
       received_at: received_at,
+      pushed_at: received_at,
       raw_payload: body
     )
   end

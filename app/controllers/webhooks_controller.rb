@@ -46,6 +46,7 @@ class WebhooksController < ApplicationController
       .with_data(path: source_path(source), url: notification.url)
       .new(title: notification.title, body: notification.body)
       .deliver_later_to(devices)
+    notification.update_column(:pushed_at, Time.current)
   end
 
   def parse_body(body)

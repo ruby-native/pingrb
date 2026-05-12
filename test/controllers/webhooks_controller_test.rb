@@ -8,6 +8,7 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
 
   test "creates a notification from a verified Stripe webhook" do
     source = sources(:stripe)
+    source.user.push_devices.create!(platform: "apple", token: "test-token")
     payload = {
       "type" => "payment_intent.succeeded",
       "data" => {
@@ -34,6 +35,7 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     notification = source.notifications.last
     assert_equal "New payment", notification.title
     assert_equal "$49.99 USD from joe@example.com", notification.body
+    assert_not_nil notification.pushed_at
   end
 
   test "rejects a Stripe webhook with an invalid signature" do
