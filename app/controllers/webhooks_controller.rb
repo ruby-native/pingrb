@@ -43,7 +43,7 @@ class WebhooksController < ApplicationController
     return if devices.empty?
 
     ApplicationPushNotification
-      .with_data(path: source_path(source))
+      .with_data(path: source_path(source), url: notification.url)
       .new(title: notification.title, body: notification.body)
       .deliver_later_to(devices)
   end
