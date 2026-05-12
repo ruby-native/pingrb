@@ -7,7 +7,7 @@ RubyNative.configure do |c|
       user_agent: controller.request.user_agent,
       ip_address: controller.request.remote_ip
     )
-    controller.cookies.signed.permanent[:pingrb_session_id] = {
+    controller.send(:cookies).signed.permanent[:pingrb_session_id] = {
       value: session.id, httponly: true, same_site: :lax
     }
   }
