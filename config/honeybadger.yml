@@ -1,0 +1,10 @@
+---
+api_key: <%= Rails.application.credentials.dig(:honeybadger, :api_key) %>
+
+env: <%= Rails.env %>
+
+report_data: <%= Rails.env.production? %>
+
+development_environments:
+  - development
+  - test
