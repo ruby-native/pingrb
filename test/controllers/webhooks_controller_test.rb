@@ -145,23 +145,6 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "main · a1b2c3d", notification.body
   end
 
-  test "creates a notification from a Honeybadger webhook (unsigned)" do
-    source = sources(:honeybadger)
-    payload = {
-      "event" => "down",
-      "message" => "[pingrb] Site is down.",
-      "site" => { "name" => "pingrb.com", "url" => "https://pingrb.com" },
-      "outage" => { "down_at" => "2026-05-08T22:25:40Z" }
-    }
-
-    post webhook_url(parser_type: "honeybadger", token: source.token),
-      params: payload.to_json,
-      headers: { "Content-Type" => "application/json" }
-
-    assert_response :success
-    assert_equal "Site down", source.notifications.last.title
-  end
-
   test "404s when the token does not match" do
     body = '{"type":"payment_intent.succeeded"}'
     post webhook_url(parser_type: "stripe", token: "wrong-token"),
@@ -178,7 +161,7 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     source = sources(:stripe)
     body = "{}"
 
-    post webhook_url(parser_type: "honeybadger", token: source.token),
+    post webhook_url(parser_type: "cal", token: source.token),
       params: body,
       headers: { "Content-Type" => "application/json" }
 

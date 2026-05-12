@@ -5,12 +5,6 @@ stripe:
   token: stripe-token-abc123
   signing_secret: whsec_test_secret_abc
 
-honeybadger:
-  user: one
-  name: Honeybadger production
-  parser_type: honeybadger
-  token: honeybadger-token-def456
-
 hatchbox:
   user: one
   name: pingrb production

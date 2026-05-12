@@ -16,9 +16,6 @@ sources = {
   stripe_unconfigured: user.sources.find_or_create_by!(name: "Stripe sandbox") { |s|
     s.parser_type = "stripe"
   },
-  honeybadger: user.sources.find_or_create_by!(name: "Honeybadger") { |s|
-    s.parser_type = "honeybadger"
-  },
   hatchbox: user.sources.find_or_create_by!(name: "pingrb production") { |s|
     s.parser_type = "hatchbox"
   },
@@ -40,11 +37,6 @@ webhook_seeds = {
     [ "stripe/invoice_paid.json", 3.hours.ago ],
     [ "stripe/subscription_deleted.json", 1.day.ago ],
     [ "stripe/dispute_created.json", 2.days.ago ]
-  ],
-  honeybadger: [
-    [ "honeybadger/new_error.json", 14.minutes.ago ],
-    [ "honeybadger/site_down.json", 1.hour.ago ],
-    [ "honeybadger/site_recovered.json", 58.minutes.ago ]
   ],
   hatchbox: [
     [ "hatchbox/deploy_failed.txt", 6.hours.ago ]
