@@ -28,6 +28,9 @@ sources = {
   },
   custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
     s.parser_type = "custom"
+  },
+  cli: user.sources.find_or_create_by!(name: "terminal") { |s|
+    s.parser_type = "cli"
   }
 }
 
@@ -52,6 +55,10 @@ webhook_seeds = {
   custom: [
     [ "custom/job_done.json", 18.minutes.ago ],
     [ "custom/agent_error.json", 2.hours.ago ]
+  ],
+  cli: [
+    [ "cli/deploy_done.json", 8.minutes.ago ],
+    [ "cli/script_finished.json", 1.hour.ago ]
   ]
 }
 

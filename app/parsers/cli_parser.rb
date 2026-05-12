@@ -1,0 +1,2 @@
+class CliParser < CustomParser
+end

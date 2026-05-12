@@ -29,3 +29,9 @@ custom:
   name: Background jobs
   parser_type: custom
   token: custom-token-stu901
+
+cli:
+  user: one
+  name: terminal
+  parser_type: cli
+  token: cli-token-yza456
