@@ -67,3 +67,5 @@ gem "tailwindcss-rails", "~> 4.4"
 gem "postmark-rails", "~> 0.22.1"
 
 gem "ruby_native"
+
+gem "action_push_native"

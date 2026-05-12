@@ -24,18 +24,29 @@ class WebhooksController < ApplicationController
       end
 
       result = source.parser.parse(payload)
-      source.notifications.create!(
+      notification = source.notifications.create!(
         title: result.title,
         body: result.body,
         url: result.url,
         raw_payload: body
       )
+      deliver_push(notification, source)
       Rails.logger.info("accepted source=#{source.id} title=#{result.title.inspect}")
       head :ok
     end
   end
 
   private
+
+  def deliver_push(notification, source)
+    devices = source.user.push_devices.to_a
+    return if devices.empty?
+
+    ApplicationPushNotification
+      .with_data(path: source_path(source))
+      .new(title: notification.title, body: notification.body)
+      .deliver_later_to(devices)
+  end
 
   def parse_body(body)
     if request.media_type == "application/x-www-form-urlencoded"

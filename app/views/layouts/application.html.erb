@@ -49,6 +49,7 @@
   <body class="native-inset isolate min-h-dvh bg-white font-sans text-sm text-neutral-900">
     <% if authenticated? %>
       <%= render "shared/header" %>
+      <%= native_push_tag %>
     <% end %>
     <%= render "shared/flash" %>
     <%= yield %>
