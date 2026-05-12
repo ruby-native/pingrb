@@ -6,3 +6,6 @@ app:
 appearance:
   tint_color: "#047857"
   background_color: "#FFFFFF"
+
+ruby_native:
+  app_id: app_4ntttyoq
