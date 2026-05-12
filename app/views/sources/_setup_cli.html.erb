@@ -16,7 +16,7 @@
   </li>
   <li class="grid grid-cols-[auto_1fr] gap-x-4">
     <span class="text-emerald-700 tabular-nums">03</span>
-    <div>
+    <div class="min-w-0">
       <p class="text-neutral-900">Send a push from any shell or script.</p>
       <%= render "webhook_url_field", url: %(pingrb "deploy done" --body "main · a1b2c3d") %>
     </div>
