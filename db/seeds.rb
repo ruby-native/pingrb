@@ -4,6 +4,13 @@ user.password_confirmation = "password"
 user.save!
 puts "Seeded user: #{user.email_address}"
 
+admin = User.find_or_initialize_by(email_address: "admin@example.com")
+admin.password = "password"
+admin.password_confirmation = "password"
+admin.admin = true
+admin.save!
+puts "Seeded admin: #{admin.email_address}"
+
 sources = {
   stripe_active: user.sources.find_or_create_by!(name: "Stripe production") { |s|
     s.parser_type = "stripe"

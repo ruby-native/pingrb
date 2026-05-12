@@ -1,0 +1,24 @@
+<% content_for :title, "admin — pingrb" %>
+
+<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header", title: "stat --all" do %>
+    <%= link_to "~", root_path, class: "hover:text-neutral-900" %>/admin
+  <% end %>
+
+  <div class="grid gap-6 sm:grid-cols-2">
+    <%= render "card", title: "users", count: @users_count, rows: {
+      "with source"  => @users_with_source,
+      "with device"  => @users_with_device
+    } %>
+
+    <%= render "card", title: "sources", count: @sources_total, rows: Source::PARSER_TYPES.index_with { |t| @sources_count[t] }.merge("pending setup" => @sources_pending_setup) %>
+
+    <%= render "card", title: "notifications", count: @notifications_total, rows: {
+      "last 24h"  => @notifications_24h,
+      "last 7d"   => @notifications_7d,
+      "pushed"    => @notifications_pushed
+    } %>
+
+    <%= render "card", title: "devices", count: @devices_count, rows: @devices_by_platform %>
+  </div>
+</main>

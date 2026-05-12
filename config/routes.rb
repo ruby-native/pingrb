@@ -11,6 +11,11 @@ Rails.application.routes.draw do
     member { post :test }
   end
   resource :registration, only: %i[new create]
+
+  namespace :admin do
+    resource :dashboard, only: :show
+  end
+
   get "privacy", to: "home#privacy", as: :privacy
   root "home#show"
 
