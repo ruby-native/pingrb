@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       start_new_session_for @user
-      redirect_to root_path, notice: "Welcome to pingrb."
+      redirect_to sources_path, notice: "Welcome to pingrb.", status: :see_other
     else
       render :new, status: :unprocessable_entity
     end

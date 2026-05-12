@@ -4,8 +4,10 @@
       <span class="text-neutral-500">$</span> pingrb
     </a>
     <div class="flex items-center gap-3 text-sm text-neutral-500">
+      <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>
+      <%= link_to "~/devices", devices_path, class: "hover:text-neutral-900" %>
       <span class="hidden sm:inline"><%= Current.user.email_address %></span>
-      <%= button_to "logout", session_path, method: :delete, class: "text-neutral-500 hover:text-neutral-900", form: { class: "contents" } %>
+      <%= button_to "logout", session_path, method: :delete, data: { logout_button: "" }, class: "text-neutral-500 hover:text-neutral-900", form: { class: "contents" } %>
     </div>
   </div>
 </header>

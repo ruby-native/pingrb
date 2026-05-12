@@ -1,0 +1,39 @@
+<%= native_navbar_tag "~/devices" do |navbar| %>
+  <% navbar.button icon: "ellipsis", position: :leading do |menu| %>
+    <% menu.item "logout", click: "[data-logout-button]", icon: "rectangle.portrait.and.arrow.right" %>
+  <% end %>
+<% end %>
+
+<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header", title: "ls --devices" do %>
+    <%= link_to "~", root_path, class: "hover:text-neutral-900" %>/devices
+  <% end %>
+
+  <% if @devices.any? %>
+    <div class="mt-2 -mx-4 grid grid-cols-[1fr_auto_auto] gap-x-4 px-4 pt-2 text-xs tracking-wide text-neutral-500 uppercase sm:mx-0 sm:gap-x-6">
+      <span>name</span>
+      <span>platform</span>
+      <span class="text-right">registered</span>
+    </div>
+    <ul role="list" class="-mx-4 divide-y divide-neutral-950/10 sm:mx-0">
+      <% @devices.each do |device| %>
+        <li class="px-4 py-3 sm:px-0">
+          <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4 sm:gap-x-6">
+            <span class="truncate"><%= device.name.presence || device.platform.to_s.titleize.presence || "device" %></span>
+            <span class="text-neutral-500"><%= device.platform %></span>
+            <span class="text-right text-xs text-neutral-500 tabular-nums"><%= time_ago_in_words(device.created_at) %> ago</span>
+          </div>
+          <div class="mt-3 flex items-center justify-end gap-2">
+            <%= button_to "[ send test push ]", test_device_path(device), method: :post, class: "rounded-sm border border-emerald-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
+            <%= button_to "[ remove ]", device_path(device), method: :delete, data: { turbo_confirm: "Remove this device? It will stop receiving pushes until you sign back in on the device." }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="-mx-4 border-t border-neutral-950/10 px-4 py-16 text-center sm:mx-0 sm:px-0 sm:py-20">
+      <p class="text-xs tracking-wide text-neutral-500 uppercase">$ no devices registered</p>
+      <p class="mx-auto mt-3 max-w-[40ch] text-sm text-neutral-600 text-pretty">Open the pingrb iOS app and sign in. Your device will appear here automatically.</p>
+    </div>
+  <% end %>
+</main>

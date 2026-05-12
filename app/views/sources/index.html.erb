@@ -1,4 +1,7 @@
 <%= native_navbar_tag "~/sources" do |navbar| %>
+  <% navbar.button icon: "ellipsis", position: :leading do |menu| %>
+    <% menu.item "logout", click: "[data-logout-button]", icon: "rectangle.portrait.and.arrow.right" %>
+  <% end %>
   <% navbar.button icon: "plus", href: new_source_path, position: :trailing %>
 <% end %>
 

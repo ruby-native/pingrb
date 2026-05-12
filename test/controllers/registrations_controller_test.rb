@@ -14,8 +14,6 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to root_path
-    follow_redirect!
     assert_redirected_to sources_path
     follow_redirect!
     assert_response :success

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :sources, only: %i[index show new create update destroy] do
     member { post :rotate }
   end
+  resources :devices, only: %i[index destroy] do
+    member { post :test }
+  end
   resource :registration, only: %i[new create]
   get "privacy", to: "home#privacy", as: :privacy
   root "home#show"
