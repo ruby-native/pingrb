@@ -1,0 +1,92 @@
+<% content_for :title, "pingrb — privacy policy" %>
+<% content_for :description, "What pingrb collects, why, and who else sees it." %>
+
+<header class="border-b border-neutral-950/10">
+  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
+    <%= link_to root_path, aria: { label: "Homepage" }, class: "text-emerald-700" do %>
+      <span class="text-neutral-500">$</span> pingrb
+    <% end %>
+    <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+  </div>
+</header>
+
+<main class="mx-auto max-w-3xl px-4 py-12 text-sm sm:px-6 sm:py-20">
+  <section>
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">privacy</p>
+    <h1 class="mt-4 flex flex-wrap items-start gap-x-3 gap-y-1 text-2xl text-balance text-neutral-900 sm:text-3xl">
+      <span class="-translate-y-px text-emerald-700">❯</span>
+      <span>Privacy policy.</span>
+    </h1>
+    <p class="mt-5 text-xs text-neutral-500">Last updated: May 11, 2026.</p>
+  </section>
+
+  <section class="mt-12 space-y-3 text-base text-neutral-700 text-pretty">
+    <p>pingrb is built and operated by Joe Masilotti as an indie product. This page describes what data the service collects, why, and who else sees it. No marketing fluff, no dark patterns. If anything is unclear, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">what we collect</p>
+    <ul role="list" class="mt-4 space-y-2 text-base text-neutral-700 text-pretty">
+      <li>Your <strong class="text-neutral-900">email address</strong> and a hashed password, so you can sign in.</li>
+      <li><strong class="text-neutral-900">Push device tokens</strong> from your iPhone, so we can deliver pushes via Apple's APNs.</li>
+      <li>The <strong class="text-neutral-900">sources</strong> you create (name, parser type, optional signing secret, generated webhook token).</li>
+      <li>The <strong class="text-neutral-900">notifications</strong> you receive: title, body, optional URL, timestamp, and the raw webhook payload from the source.</li>
+    </ul>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">Webhook payloads can include data sent by the third-party service that fired the webhook (Stripe, Cal.com, GitHub, etc.). We store them so you can see the notification in your dashboard. We do not enrich, sell, or share them.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">third parties</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">pingrb sends data to a small number of third-party services that make the product work:</p>
+    <ul role="list" class="mt-4 space-y-2 text-base text-neutral-700 text-pretty">
+      <li><strong class="text-neutral-900">Apple Push Notification service (APNs)</strong>: receives the push payload and your device token to deliver notifications to your phone.</li>
+      <li><strong class="text-neutral-900">Postmark</strong>: sends transactional email (password resets).</li>
+      <li><strong class="text-neutral-900">Fathom Analytics</strong>: anonymous, cookieless web analytics for the marketing site. No personal data is sent.</li>
+      <li><strong class="text-neutral-900">Hatchbox / Hetzner</strong>: hosting infrastructure where the app and database run.</li>
+    </ul>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">how we secure it</p>
+    <ul role="list" class="mt-4 space-y-2 text-base text-neutral-700 text-pretty">
+      <li>All traffic to and from pingrb.com uses HTTPS.</li>
+      <li>Passwords are hashed with bcrypt. We never store or log them in plain text.</li>
+      <li>Webhook signatures are verified where the source supports it (Stripe, Cal.com).</li>
+      <li>Access to the production database is limited to the operator (Joe).</li>
+    </ul>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">how long we keep it</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">Notifications are retained as long as their source exists. Deleting a source deletes its notifications. Deleting your account deletes everything we have for you, including the device tokens that were used to push to your phone.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">your rights</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">You can review and delete your sources and notifications from your account at any time. To delete your account or request a copy of your data, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">children</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">pingrb is not directed at children under 13 and does not knowingly collect data from them.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">changes</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">If this policy changes in any meaningful way, the "last updated" date above will move and the change will be reflected here. There is no mailing list for this; check back if you care.</p>
+  </section>
+
+  <section class="mt-12">
+    <p class="text-xs tracking-wide text-emerald-700 uppercase">contact</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty"><%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>. Include "privacy" in the subject if it speeds the read.</p>
+  </section>
+
+  <section class="mt-20 border-t border-neutral-950/10 pt-10 pb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-500">
+      <p>built by <%= link_to "joe masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
+      <p>
+        <%= link_to "home", root_path, class: "hover:text-neutral-900" %>
+      </p>
+    </div>
+  </section>
+</main>

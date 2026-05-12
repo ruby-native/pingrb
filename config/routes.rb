@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member { post :rotate }
   end
   resource :registration, only: %i[new create]
+  get "privacy", to: "home#privacy", as: :privacy
   root "home#show"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
