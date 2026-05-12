@@ -50,6 +50,7 @@
     <% if authenticated? %>
       <%= render "shared/header" %>
       <%= native_push_tag %>
+      <%= native_tabs_tag %>
     <% end %>
     <%= render "shared/flash" %>
     <%= yield %>
