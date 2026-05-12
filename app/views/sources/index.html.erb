@@ -21,7 +21,7 @@
     <ul role="list" class="-mx-4 divide-y divide-neutral-950/10 sm:mx-0">
       <% @sources.each do |source| %>
         <% needs_setup = source.parser.requires_signing_secret? && source.signing_secret.blank? %>
-        <% count = source.notifications.count %>
+        <% count = @notification_counts[source.id] || 0 %>
         <li>
           <%= link_to source_path(source), class: "grid grid-cols-[1fr_auto_auto] items-center gap-x-4 px-4 py-3 text-neutral-900 transition hover:bg-neutral-50 sm:gap-x-6" do %>
             <span class="truncate"><%= source.name %></span>

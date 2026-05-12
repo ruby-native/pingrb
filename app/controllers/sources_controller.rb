@@ -3,6 +3,7 @@ class SourcesController < ApplicationController
 
   def index
     @sources = Current.user.sources.order(created_at: :desc)
+    @notification_counts = Notification.where(source_id: @sources).group(:source_id).count
   end
 
   def show
