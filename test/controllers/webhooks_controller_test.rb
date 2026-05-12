@@ -147,6 +147,20 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "main a1b2c3d", notification.body
   end
 
+  test "handles non-ASCII bytes in the request body" do
+    source = sources(:cli)
+    payload = { "title" => "deploy done", "body" => "main · a1b2c3d" }
+
+    post webhook_url(parser_type: "cli", token: source.token),
+      params: payload.to_json,
+      headers: { "Content-Type" => "application/json" }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "main · a1b2c3d", notification.body
+    assert_equal "main · a1b2c3d", JSON.parse(notification.raw_payload)["body"]
+  end
+
   test "creates a notification from a Hatchbox failed deploy script (form-encoded)" do
     source = sources(:hatchbox)
 

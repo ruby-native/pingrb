@@ -10,7 +10,7 @@ class WebhooksController < ApplicationController
         return head :not_found
       end
 
-      body = request.raw_post
+      body = request.raw_post.dup.force_encoding(Encoding::UTF_8)
       unless source.parser.verify(request, body, source.signing_secret)
         Rails.logger.warn("rejected: invalid signature source=#{source.id} body_bytes=#{body.bytesize}")
         return head :unauthorized
