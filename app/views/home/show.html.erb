@@ -1,5 +1,5 @@
 <% content_for :title, "pingrb — a tiny push notification app to get alerts on anything" %>
-<% content_for :description, "Webhooks from your stack, pings from your agents, curls from anywhere. Anything that can POST a JSON body lands as a push on your phone." %>
+<% content_for :description, "Stripe paid, deploy failed, agent finished. Anything that can POST lands as a push on your phone." %>
 
 <header class="border-b border-neutral-950/10">
   <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
@@ -48,9 +48,10 @@
       <li class="grid grid-cols-[auto_1fr] gap-x-4">
         <span class="text-emerald-700 tabular-nums">03</span>
         <div class="min-w-0">
-          <p class="text-neutral-900">Tell me when Claude is done.</p>
-          <p class="mt-1 text-xs text-neutral-500">Install the CLI. Ask Claude to ping you when the task wraps.</p>
-          <pre class="mt-3 overflow-x-auto rounded-sm border border-neutral-950/10 bg-white px-3 py-2 text-xs text-neutral-900">$ brew install ruby-native/tap/pingrb</pre>
+          <p class="text-neutral-900">Give your agent a push button.</p>
+          <p class="mt-1 text-xs text-neutral-500">A one-line CLI for Claude, Codex, anything.</p>
+          <pre class="mt-3 overflow-x-auto rounded-sm border border-neutral-950/10 bg-white px-3 py-2 text-xs text-neutral-900">$ brew install ruby-native/tap/pingrb
+&gt; pingrb me when you're done</pre>
         </div>
       </li>
     </ol>
