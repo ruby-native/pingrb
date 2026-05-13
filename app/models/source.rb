@@ -1,5 +1,5 @@
 class Source < ApplicationRecord
-  PARSER_TYPES = %w[stripe hatchbox cal status_cake custom cli].freeze
+  PARSER_TYPES = %w[stripe hatchbox cal status_cake github custom cli].freeze
   CREATABLE_PARSER_TYPES = PARSER_TYPES
 
   belongs_to :user

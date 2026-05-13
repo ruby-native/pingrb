@@ -24,6 +24,13 @@ status_cake:
   parser_type: status_cake
   token: statuscake-token-vwx234
 
+github:
+  user: one
+  name: ruby-native/pingrb
+  parser_type: github
+  token: github-token-mno345
+  signing_secret: github_test_secret
+
 custom:
   user: one
   name: Background jobs

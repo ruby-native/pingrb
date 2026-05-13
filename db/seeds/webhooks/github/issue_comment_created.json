@@ -1,0 +1,16 @@
+{
+  "action": "created",
+  "issue": {
+    "number": 42,
+    "title": "App crashes on cold start when offline",
+    "html_url": "https://github.com/ruby-native/pingrb/issues/42"
+  },
+  "comment": {
+    "html_url": "https://github.com/ruby-native/pingrb/issues/42#issuecomment-2890123",
+    "user": { "login": "grace" }
+  },
+  "repository": {
+    "full_name": "ruby-native/pingrb",
+    "html_url": "https://github.com/ruby-native/pingrb"
+  }
+}

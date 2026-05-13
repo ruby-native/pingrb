@@ -1,0 +1,13 @@
+{
+  "action": "completed",
+  "workflow_run": {
+    "name": "CI",
+    "head_branch": "main",
+    "conclusion": "failure",
+    "html_url": "https://github.com/ruby-native/pingrb/actions/runs/7891234"
+  },
+  "repository": {
+    "full_name": "ruby-native/pingrb",
+    "html_url": "https://github.com/ruby-native/pingrb"
+  }
+}

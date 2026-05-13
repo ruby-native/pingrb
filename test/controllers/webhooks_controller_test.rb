@@ -108,6 +108,74 @@ class WebhooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  def github_signature(body, secret)
+    "sha256=" + OpenSSL::HMAC.hexdigest("SHA256", secret, body)
+  end
+
+  test "creates a notification from a verified GitHub issues webhook" do
+    source = sources(:github)
+    payload = {
+      "action" => "opened",
+      "issue" => {
+        "number" => 42,
+        "title" => "Login broken",
+        "html_url" => "https://github.com/ruby-native/pingrb/issues/42",
+        "user" => { "login" => "ada" }
+      },
+      "repository" => { "full_name" => "ruby-native/pingrb" }
+    }
+    body = payload.to_json
+
+    post webhook_url(parser_type: "github", token: source.token),
+      params: body,
+      headers: {
+        "Content-Type" => "application/json",
+        "X-Hub-Signature-256" => github_signature(body, source.signing_secret)
+      }
+
+    assert_response :success
+    notification = source.notifications.last
+    assert_equal "New issue", notification.title
+    assert_equal "#42 Login broken · ruby-native/pingrb", notification.body
+  end
+
+  test "rejects a GitHub webhook with an invalid signature" do
+    source = sources(:github)
+    body = '{"action":"opened","issue":{"number":1}}'
+
+    assert_no_difference -> { source.notifications.count } do
+      post webhook_url(parser_type: "github", token: source.token),
+        params: body,
+        headers: {
+          "Content-Type" => "application/json",
+          "X-Hub-Signature-256" => "sha256=deadbeef"
+        }
+    end
+
+    assert_response :unauthorized
+  end
+
+  test "GitHub webhook for a successful workflow run is accepted but ignored" do
+    source = sources(:github)
+    payload = {
+      "action" => "completed",
+      "workflow_run" => { "name" => "CI", "head_branch" => "main", "conclusion" => "success" },
+      "repository" => { "full_name" => "ruby-native/pingrb" }
+    }
+    body = payload.to_json
+
+    assert_no_difference -> { source.notifications.count } do
+      post webhook_url(parser_type: "github", token: source.token),
+        params: body,
+        headers: {
+          "Content-Type" => "application/json",
+          "X-Hub-Signature-256" => github_signature(body, source.signing_secret)
+        }
+    end
+
+    assert_response :success
+  end
+
   test "creates a notification from a StatusCake Down alert (form-encoded)" do
     source = sources(:status_cake)
 

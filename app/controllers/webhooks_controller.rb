@@ -24,6 +24,11 @@ class WebhooksController < ApplicationController
       end
 
       result = source.parser.parse(payload)
+      if result.nil?
+        Rails.logger.info("ignored source=#{source.id} (parser returned no result)")
+        return head :ok
+      end
+
       notification = source.notifications.create!(
         title: result.title,
         body: result.body,

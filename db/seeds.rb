@@ -33,6 +33,10 @@ sources = {
   status_cake: user.sources.find_or_create_by!(name: "pingrb monitors") { |s|
     s.parser_type = "status_cake"
   },
+  github: user.sources.find_or_create_by!(name: "ruby-native/pingrb") { |s|
+    s.parser_type = "github"
+    s.signing_secret = "github_dev_secret"
+  },
   custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
     s.parser_type = "custom"
   },
@@ -58,6 +62,11 @@ webhook_seeds = {
   status_cake: [
     [ "status_cake/site_down.txt", 12.minutes.ago ],
     [ "status_cake/site_recovered.txt", 9.minutes.ago ]
+  ],
+  github: [
+    [ "github/issue_comment_created.json", 10.minutes.ago ],
+    [ "github/issue_opened.json", 25.minutes.ago ],
+    [ "github/workflow_run_failed.json", 5.hours.ago ]
   ],
   custom: [
     [ "custom/job_done.json", 18.minutes.ago ],
