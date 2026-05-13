@@ -7,7 +7,7 @@ module Admin
 
       @sources_count = Source::PARSER_TYPES.index_with { 0 }.merge(Source.group(:parser_type).count)
       @sources_total = @sources_count.values.sum
-      @sources_pending_setup = Source.where(signing_secret: [ nil, "" ])
+      @sources_pending_setup = Source.where(signing_secret: nil)
         .where(parser_type: %w[stripe cal]).count
 
       @notifications_total = Notification.count

@@ -6,6 +6,9 @@ class Source < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_secure_token :token, length: 32
 
+  encrypts :signing_secret
+  normalizes :signing_secret, with: ->(value) { value.presence }
+
   validates :name, presence: true
   validates :parser_type, inclusion: { in: PARSER_TYPES }
 

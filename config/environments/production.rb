@@ -78,6 +78,10 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # TODO: remove once the 4 plaintext Source#signing_secret rows have been
+  # re-encrypted via `Source.where.not(signing_secret: nil).find_each(&:encrypt)`.
+  config.active_record.encryption.support_unencrypted_data = true
+
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
