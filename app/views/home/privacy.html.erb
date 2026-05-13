@@ -21,7 +21,7 @@
   </section>
 
   <section class="mt-12 space-y-3 text-base text-neutral-700 text-pretty">
-    <p>pingrb is built and operated by Joe Masilotti as an indie product. This page describes what data the service collects, why, and who else sees it. No marketing fluff, no dark patterns. If anything is unclear, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
+    <p>pingrb is built and operated by <%= link_to "Joe Masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>. This page describes what data the service collects, why, and who else sees it. If anything is unclear, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
   </section>
 
   <section class="mt-12">
@@ -63,12 +63,7 @@
 
   <section class="mt-12">
     <p class="text-xs tracking-wide text-emerald-700 uppercase">your rights</p>
-    <p class="mt-4 text-base text-neutral-700 text-pretty">You can review and delete your sources and notifications from your account at any time. To delete your account or request a copy of your data, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
-  </section>
-
-  <section class="mt-12">
-    <p class="text-xs tracking-wide text-emerald-700 uppercase">children</p>
-    <p class="mt-4 text-base text-neutral-700 text-pretty">pingrb is not directed at children under 13 and does not knowingly collect data from them.</p>
+    <p class="mt-4 text-base text-neutral-700 text-pretty">You can review and delete your sources and notifications from your account at any time. You can also delete your account from the account page, which removes everything we have for you. For a copy of your data, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
   </section>
 
   <section class="mt-12">
@@ -76,16 +71,13 @@
     <p class="mt-4 text-base text-neutral-700 text-pretty">If this policy changes in any meaningful way, the "last updated" date above will move and the change will be reflected here. There is no mailing list for this; check back if you care.</p>
   </section>
 
-  <section class="mt-12">
-    <p class="text-xs tracking-wide text-emerald-700 uppercase">contact</p>
-    <p class="mt-4 text-base text-neutral-700 text-pretty"><%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>. Include "privacy" in the subject if it speeds the read.</p>
-  </section>
-
   <section class="mt-20 border-t border-neutral-950/10 pt-10 pb-4">
     <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-500">
       <p>built by <%= link_to "joe masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
       <p>
         <%= link_to "home", root_path, class: "hover:text-neutral-900" %>
+        ·
+        <%= link_to "support", support_path, class: "hover:text-neutral-900" %>
       </p>
     </div>
   </section>
