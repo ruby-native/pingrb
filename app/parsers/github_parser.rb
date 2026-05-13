@@ -22,17 +22,11 @@ class GithubParser < Parser
   private
 
   def parse_issue
-    issue = payload["issue"] || {}
-    title = case payload["action"]
-    when "opened" then "New issue"
-    when "closed" then "Issue closed"
-    when "reopened" then "Issue reopened"
-    when "assigned" then "Issue assigned"
-    end
-    return nil if title.nil?
+    return nil unless payload["action"] == "opened"
 
+    issue = payload["issue"] || {}
     Result.new(
-      title: title,
+      title: "New issue",
       body: "##{issue['number']} #{issue['title']} · #{repo_name}",
       url: issue["html_url"]
     )

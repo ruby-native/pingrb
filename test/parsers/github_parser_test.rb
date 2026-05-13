@@ -18,45 +18,12 @@ class GithubParserTest < ActiveSupport::TestCase
     assert_equal "https://github.com/ruby-native/pingrb/issues/42", result.url
   end
 
-  test "parses a closed issue" do
-    result = GithubParser.parse(
-      "action" => "closed",
-      "issue" => { "number" => 7, "title" => "Old bug", "html_url" => "https://example.test" },
-      "repository" => { "full_name" => "ruby-native/pingrb" }
-    )
+  test "ignores issue actions other than opened" do
+    base = { "issue" => { "number" => 1, "title" => "x" }, "repository" => { "full_name" => "r/p" } }
 
-    assert_equal "Issue closed", result.title
-    assert_match(/^#7 Old bug · /, result.body)
-  end
-
-  test "parses a reopened issue" do
-    result = GithubParser.parse(
-      "action" => "reopened",
-      "issue" => { "number" => 8, "title" => "Regression", "html_url" => "https://example.test" },
-      "repository" => { "full_name" => "ruby-native/pingrb" }
-    )
-
-    assert_equal "Issue reopened", result.title
-  end
-
-  test "parses an assigned issue" do
-    result = GithubParser.parse(
-      "action" => "assigned",
-      "issue" => { "number" => 9, "title" => "Triage me", "html_url" => "https://example.test" },
-      "repository" => { "full_name" => "ruby-native/pingrb" }
-    )
-
-    assert_equal "Issue assigned", result.title
-  end
-
-  test "ignores unhandled issue actions" do
-    result = GithubParser.parse(
-      "action" => "labeled",
-      "issue" => { "number" => 1, "title" => "x" },
-      "repository" => { "full_name" => "r/p" }
-    )
-
-    assert_nil result
+    %w[closed reopened assigned edited labeled].each do |action|
+      assert_nil GithubParser.parse(base.merge("action" => action)), "expected #{action} to be dropped"
+    end
   end
 
   test "parses a new issue comment" do
