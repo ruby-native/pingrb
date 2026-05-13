@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   post "webhooks/:parser_type/:token", to: "webhooks#create", as: :webhook
 
-  resources :sources, only: %i[index show new create update destroy] do
+  resources :sources, only: %i[index show new edit create update destroy] do
     member { post :rotate }
   end
   resources :devices, only: %i[index destroy] do

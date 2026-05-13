@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_action :set_source, only: %i[show update destroy rotate]
+  before_action :set_source, only: %i[show edit update destroy rotate]
 
   def index
     @sources = Current.user.sources.order(created_at: :desc)
@@ -21,6 +21,9 @@ class SourcesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
   end
 
   def update

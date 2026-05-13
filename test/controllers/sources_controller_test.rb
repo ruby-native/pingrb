@@ -43,6 +43,20 @@ class SourcesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to sources_path
   end
 
+  test "renames a source" do
+    source = sources(:stripe)
+    patch source_path(source), params: { source: { name: "Stripe staging" } }
+    assert_redirected_to source
+    assert_equal "Stripe staging", source.reload.name
+  end
+
+  test "edit page shows the current name" do
+    source = sources(:stripe)
+    get edit_source_path(source)
+    assert_response :success
+    assert_select "input[name='source[name]'][value=?]", source.name
+  end
+
   test "rotates the webhook URL token" do
     source = sources(:hatchbox)
     old_token = source.token
