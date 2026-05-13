@@ -1,14 +1,16 @@
 <% content_for :title, "pingrb — support" %>
 <% content_for :description, "How to get help with pingrb." %>
 
-<header class="border-b border-neutral-950/10">
-  <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
-    <%= link_to root_path, aria: { label: "Homepage" }, class: "text-emerald-700" do %>
-      <span class="text-neutral-500">$</span> pingrb
-    <% end %>
-    <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
-  </div>
-</header>
+<% unless authenticated? %>
+  <header class="border-b border-neutral-950/10">
+    <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
+      <%= link_to root_path, aria: { label: "Homepage" }, class: "text-emerald-700" do %>
+        <span class="text-neutral-500">$</span> pingrb
+      <% end %>
+      <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+    </div>
+  </header>
+<% end %>
 
 <main class="mx-auto max-w-3xl px-4 py-12 text-sm sm:px-6 sm:py-20">
   <section>
@@ -21,11 +23,6 @@
 
   <section class="mt-12 space-y-3 text-base text-neutral-700 text-pretty">
     <p>pingrb is built and operated by <%= link_to "Joe Masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>. If something is broken, you have a question, or you want to request a feature, email <%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>. I usually reply within a day.</p>
-  </section>
-
-  <section class="mt-12">
-    <p class="text-xs tracking-wide text-emerald-700 uppercase">contact</p>
-    <p class="mt-4 text-base text-neutral-700 text-pretty"><%= mail_to "joe@masilotti.com", class: "text-emerald-700 hover:underline" %>. Include "pingrb" in the subject so it lands in the right place.</p>
   </section>
 
   <section class="mt-20 border-t border-neutral-950/10 pt-10 pb-4">
