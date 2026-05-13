@@ -4,12 +4,16 @@
       <span class="text-neutral-500">$</span> pingrb
     </a>
     <div class="flex items-center gap-3 text-sm text-neutral-500">
-      <%= link_to "sources", sources_path, class: "hover:text-neutral-900" %>
-      <%= link_to "devices", devices_path, class: "hover:text-neutral-900" %>
-      <% if admin? %>
-        <%= link_to "admin", admin_dashboard_path, class: "hover:text-neutral-900" %>
+      <% if authenticated? %>
+        <%= link_to "sources", sources_path, class: "hover:text-neutral-900" %>
+        <%= link_to "devices", devices_path, class: "hover:text-neutral-900" %>
+        <% if admin? %>
+          <%= link_to "admin", admin_dashboard_path, class: "hover:text-neutral-900" %>
+        <% end %>
+        <%= link_to "account", account_path, class: "hover:text-neutral-900" %>
+      <% else %>
+        <%= link_to "sign in", new_session_path, class: "hover:text-neutral-900" %>
       <% end %>
-      <%= link_to "account", account_path, class: "hover:text-neutral-900" %>
     </div>
   </div>
 </header>

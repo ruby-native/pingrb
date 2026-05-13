@@ -47,12 +47,13 @@
   </head>
 
   <body class="native-inset isolate min-h-dvh bg-white font-sans text-sm text-neutral-900">
+    <%= render "shared/header" %>
     <% if authenticated? %>
-      <%= render "shared/header" %>
       <%= native_push_tag %>
       <%= native_tabs_tag %>
     <% end %>
     <%= render "shared/flash" %>
     <%= yield %>
+    <%= render "shared/footer" %>
   </body>
 </html>

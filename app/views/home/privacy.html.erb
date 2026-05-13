@@ -1,17 +1,6 @@
 <% content_for :title, "pingrb — privacy policy" %>
 <% content_for :description, "What pingrb collects, why, and who else sees it." %>
 
-<% unless authenticated? %>
-  <header class="border-b border-neutral-950/10">
-    <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 text-sm sm:px-6">
-      <%= link_to root_path, aria: { label: "Homepage" }, class: "text-emerald-700" do %>
-        <span class="text-neutral-500">$</span> pingrb
-      <% end %>
-      <%= link_to "sign in", new_session_path, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
-    </div>
-  </header>
-<% end %>
-
 <main class="mx-auto max-w-3xl px-4 py-12 text-sm sm:px-6 sm:py-20">
   <section>
     <p class="text-xs tracking-wide text-emerald-700 uppercase">privacy</p>
@@ -73,14 +62,4 @@
     <p class="mt-4 text-base text-neutral-700 text-pretty">If this policy changes in any meaningful way, the "last updated" date above will move and the change will be reflected here. There is no mailing list for this; check back if you care.</p>
   </section>
 
-  <section class="mt-20 border-t border-neutral-950/10 pt-10 pb-4">
-    <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-500">
-      <p>built by <%= link_to "joe masilotti", "https://masilotti.com", class: "text-emerald-700 hover:underline" %>.</p>
-      <p>
-        <%= link_to "home", root_path, class: "hover:text-neutral-900" %>
-        ·
-        <%= link_to "support", support_path, class: "hover:text-neutral-900" %>
-      </p>
-    </div>
-  </section>
 </main>
