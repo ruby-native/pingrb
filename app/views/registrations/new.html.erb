@@ -1,6 +1,6 @@
 <%= native_form_tag %>
 
-<main class="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-xs flex-col justify-center px-6 py-10 text-sm">
+<main class="mx-auto flex w-full max-w-xs flex-col px-6 pt-[15vh] pb-10 text-sm">
   <p class="text-base text-emerald-700">
     <span class="text-neutral-500">$</span> pingrb
   </p>
@@ -33,7 +33,7 @@
     <%= form.submit "[ sign up ]", class: "w-full rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
   <% end %>
 
-  <div class="native-hidden mt-6 text-right text-xs text-neutral-500">
+  <div class="mt-6 text-right text-xs text-neutral-500">
     <%= link_to "← have an account? sign in", new_session_path, class: "hover:text-neutral-900" %>
   </div>
 </main>
