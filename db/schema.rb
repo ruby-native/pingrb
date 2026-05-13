@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_12_141429) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_13_183431) do
   create_table "action_push_native_devices", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -35,6 +35,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_141429) do
     t.index ["source_id"], name: "index_notifications_on_source_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "name"], name: "index_projects_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -48,10 +57,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_141429) do
     t.datetime "created_at", null: false
     t.string "name"
     t.string "parser_type"
+    t.integer "project_id"
     t.string "signing_secret"
     t.string "token"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["project_id"], name: "index_sources_on_project_id"
     t.index ["token"], name: "index_sources_on_token", unique: true
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
@@ -66,6 +77,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_141429) do
   end
 
   add_foreign_key "notifications", "sources"
+  add_foreign_key "projects", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "sources", "projects"
   add_foreign_key "sources", "users"
 end

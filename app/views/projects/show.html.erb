@@ -1,0 +1,33 @@
+<%= native_navbar_tag "~/projects/#{@project.name.parameterize}" do |navbar| %>
+  <% navbar.button icon: "chevron.left", href: sources_path, position: :leading %>
+  <% navbar.button icon: "ellipsis", position: :trailing do |menu| %>
+    <% menu.item "Edit", click: "[data-edit-button]" %>
+    <% menu.item "Remove project", click: "[data-remove-button]" %>
+  <% end %>
+<% end %>
+
+<main class="mx-auto w-full max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header",
+    title: "ls --notifications",
+    action: link_to("[ + new source ]", new_source_path(source: { project_id: @project.id }), class: "shrink-0 rounded-sm border border-emerald-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700") do %>
+    <%= link_to "~", root_path, class: "hover:text-neutral-900" %>/projects/<%= @project.name.parameterize %>
+  <% end %>
+
+  <% if @sources.any? %>
+    <ul role="list" class="mt-4 -mx-4 sm:mx-0 divide-y divide-neutral-950/10">
+      <% @sources.each do |source| %>
+        <%= render "sources/row", source: source, display_name: source.display_name_for(@project) %>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="-mx-4 mt-4 border-t border-neutral-950/10 px-4 py-16 text-center sm:mx-0 sm:px-0 sm:py-20">
+      <p class="text-xs tracking-wide text-neutral-500 uppercase">$ no sources in this project</p>
+      <p class="mx-auto mt-3 max-w-[40ch] text-sm text-neutral-600 text-pretty">Add a source and assign it to <%= @project.name %>.</p>
+    </div>
+  <% end %>
+
+  <section class="native-hidden mt-8 flex items-center justify-end gap-2">
+    <%= button_to "[ remove project ]", @project, method: :delete, data: { turbo_confirm: "Remove #{@project.name.parameterize}? Sources will move to default.", remove_button: "" }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", form: { class: "contents" } %>
+    <%= link_to "[ edit ]", edit_project_path(@project), data: { edit_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+  </section>
+</main>

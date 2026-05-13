@@ -1,0 +1,30 @@
+<%= native_navbar_tag "Edit project" %>
+
+<main class="mx-auto w-full max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header", title: "edit" do %>
+    <%= link_to "~", root_path, class: "hover:text-neutral-900" %>/projects/<%= link_to @project.name.parameterize, @project, class: "hover:text-neutral-900" %>
+  <% end %>
+
+  <%= form_with model: @project, class: "max-w-md space-y-5" do |form| %>
+    <% if @project.errors.any? %>
+      <div class="border-l-2 border-red-700 bg-red-50 px-3 py-2 text-red-900">
+        <span class="text-xs text-red-700">[err]</span>
+        <ul role="list" class="mt-1 list-disc pl-5 text-xs">
+          <% @project.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= form.label :name, class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
+      <%= form.text_field :name, required: true, autofocus: true, class: "mt-2 block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+
+    <div class="flex items-center gap-3 pt-2">
+      <%= form.submit "[ save ]", class: "rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+      <%= link_to "cancel", @project, class: "text-xs text-neutral-500 hover:text-neutral-900" %>
+    </div>
+  <% end %>
+</main>

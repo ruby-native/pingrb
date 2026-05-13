@@ -2,7 +2,7 @@
 
 <%= native_navbar_tag @source.name do |navbar| %>
   <% navbar.button icon: "ellipsis", position: :trailing do |menu| %>
-    <% menu.item "Rename", click: "[data-rename-button]" %>
+    <% menu.item "Edit", click: "[data-edit-button]" %>
     <% if @source.parser.auto_generate_signing_secret? %>
       <% menu.item "Regenerate secret", click: "[data-regenerate-secret-button]" %>
     <% end %>
@@ -15,7 +15,7 @@
 
 <main class="mx-auto w-full max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
   <%= render "shared/page_header", title: @source.name do %>
-    <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>/<%= @source.parser_type %>
+    <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>/<% if @source.project %><%= link_to @source.project.name.parameterize, @source.project, class: "hover:text-neutral-900" %><% else %>default<% end %>
   <% end %>
 
   <% needs_setup = (@source.parser.requires_signing_secret? && @source.signing_secret.blank?) || @notifications.none? %>
@@ -61,7 +61,7 @@
   </section>
 
   <section class="native-hidden mt-8 flex items-center justify-end gap-2">
-    <%= link_to "[ rename ]", edit_source_path(@source), data: { rename_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+    <%= link_to "[ edit ]", edit_source_path(@source), data: { edit_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
     <% if @source.parser.auto_generate_signing_secret? %>
       <%= button_to "[ regenerate secret ]", regenerate_signing_secret_source_path(@source), method: :post, data: { turbo_confirm: "Regenerate the signing secret? The old secret stops working immediately and must be updated in #{@source.parser_type.titleize}.", regenerate_secret_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
     <% end %>

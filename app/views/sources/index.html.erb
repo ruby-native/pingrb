@@ -11,25 +11,23 @@
   <% end %>
 
   <% if @sources.any? %>
-    <div class="mt-2 -mx-4 grid grid-cols-[1fr_auto_auto] gap-x-4 px-4 pt-2 text-xs tracking-wide text-neutral-500 uppercase sm:mx-0 sm:gap-x-6">
-      <span>name</span>
-      <span>type</span>
-      <span class="text-right">events</span>
-    </div>
-    <ul role="list" class="-mx-4 divide-y divide-neutral-950/10 sm:mx-0">
-      <% @sources.each do |source| %>
-        <% needs_setup = source.parser.requires_signing_secret? && source.signing_secret.blank? %>
-        <% count = @notification_counts[source.id] || 0 %>
+    <ul role="list" class="mt-4 -mx-4 space-y-4 sm:mx-0">
+      <% @grouped_sources.each do |item| %>
         <li>
-          <%= link_to source_path(source), class: "grid grid-cols-[1fr_auto_auto] items-center gap-x-4 px-4 py-3 text-neutral-900 transition hover:bg-neutral-50 sm:gap-x-6" do %>
-            <span class="truncate"><%= source.name %></span>
-            <span class="text-neutral-500"><%= source.parser_type %></span>
-            <% if needs_setup %>
-              <span class="tabular-nums text-red-700" title="Needs setup">TODO</span>
-            <% else %>
-              <span class="tabular-nums <%= count.zero? ? 'text-neutral-400' : 'text-emerald-700' %>"><%= count.to_s.rjust(4, "0") %></span>
+          <% if item[:project] %>
+            <%= link_to project_path(item[:project]), class: "block px-4 pt-4 pb-1 text-xs tracking-wide text-emerald-700 lowercase hover:underline" do %>
+              <%= item[:group].parameterize %>/
             <% end %>
+          <% else %>
+            <div class="px-4 pt-4 pb-1 text-xs tracking-wide text-neutral-500 lowercase">
+              <%= item[:group].parameterize %>/
+            </div>
           <% end %>
+          <ul role="list" class="divide-y divide-neutral-950/10">
+            <% item[:sources].each do |source| %>
+              <%= render "row", source: source, display_name: source.display_name_for(item[:project]), nested: true %>
+            <% end %>
+          </ul>
         </li>
       <% end %>
     </ul>

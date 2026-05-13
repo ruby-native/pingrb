@@ -1,5 +1,6 @@
 stripe:
   user: one
+  project: ruby_native
   name: Stripe production
   parser_type: stripe
   token: stripe-token-abc123
@@ -7,12 +8,14 @@ stripe:
 
 hatchbox:
   user: one
+  project: ruby_native
   name: pingrb production
   parser_type: hatchbox
   token: hatchbox-token-ghi789
 
 cal:
   user: one
+  project: masilotti
   name: Cal.com
   parser_type: cal
   token: cal-token-jkl012
@@ -20,12 +23,14 @@ cal:
 
 status_cake:
   user: one
+  project: ruby_native
   name: pingrb monitors
   parser_type: status_cake
   token: statuscake-token-vwx234
 
 github:
   user: one
+  project: ruby_native
   name: ruby-native/pingrb
   parser_type: github
   token: github-token-mno345

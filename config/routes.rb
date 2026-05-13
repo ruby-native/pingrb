@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post :regenerate_signing_secret
     end
   end
+  resources :projects, only: %i[show edit update destroy]
   resources :devices, only: %i[index destroy] do
     member { post :test }
   end

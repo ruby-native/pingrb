@@ -38,4 +38,78 @@ class SourceTest < ActiveSupport::TestCase
     assert_not_equal original, source.signing_secret
     assert_predicate source.signing_secret, :present?
   end
+
+  test "requires new_project_name when project_id is the 'new' sentinel" do
+    source = users(:one).sources.build(name: "x", parser_type: "custom", project_id: "new")
+    assert_not source.valid?
+    assert_includes source.errors[:new_project_name], "must be provided"
+  end
+
+  test "creates a new project when project_id is 'new' and a name is provided" do
+    assert_difference "Project.count", 1 do
+      source = users(:one).sources.create!(name: "x", parser_type: "custom", project_id: "new", new_project_name: "fresh")
+      assert_equal "fresh", source.project.name
+    end
+  end
+
+  test "reuses an existing project when new_project_name matches case-insensitively" do
+    project = users(:one).projects.create!(name: "shared")
+    assert_no_difference "Project.count" do
+      source = users(:one).sources.create!(name: "x", parser_type: "custom", project_id: "new", new_project_name: "Shared")
+      assert_equal project.id, source.project_id
+    end
+  end
+
+  test "blank project_id assigns no project" do
+    source = users(:one).sources.create!(name: "x", parser_type: "custom", project_id: "")
+    assert_nil source.project
+  end
+
+  test "destroys orphan project when last source moves out" do
+    project = users(:one).projects.create!(name: "lonely-move")
+    source = users(:one).sources.create!(name: "x", parser_type: "custom", project: project)
+
+    source.update!(project: nil)
+
+    assert_not Project.exists?(project.id)
+  end
+
+  test "destroys orphan project when last source is deleted" do
+    project = users(:one).projects.create!(name: "lonely-delete")
+    source = users(:one).sources.create!(name: "x", parser_type: "custom", project: project)
+
+    source.destroy
+
+    assert_not Project.exists?(project.id)
+  end
+
+  test "leaves project intact when other sources remain" do
+    project = users(:one).projects.create!(name: "kept")
+    keeper = users(:one).sources.create!(name: "keeper", parser_type: "custom", project: project)
+    leaver = users(:one).sources.create!(name: "leaver", parser_type: "custom", project: project)
+
+    leaver.destroy
+
+    assert Project.exists?(project.id)
+    assert_equal [ keeper.id ], project.reload.sources.pluck(:id)
+  end
+
+  test "display_name_for strips the project's name prefix" do
+    project = Project.new(name: "ruby native")
+    source = Source.new(name: "Ruby Native Issues")
+
+    assert_equal "Issues", source.display_name_for(project)
+  end
+
+  test "display_name_for is case-insensitive" do
+    project = Project.new(name: "ruby native")
+    source = Source.new(name: "ruby native foo")
+
+    assert_equal "foo", source.display_name_for(project)
+  end
+
+  test "display_name_for returns the full name when project is nil" do
+    source = users(:one).sources.build(name: "Standalone")
+    assert_equal "Standalone", source.display_name_for(nil)
+  end
 end

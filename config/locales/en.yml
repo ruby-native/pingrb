@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      source:
+        parser_type: "Type"
+        project_id: "Project"

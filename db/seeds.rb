@@ -11,76 +11,32 @@ admin.admin = true
 admin.save!
 puts "Seeded admin: #{admin.email_address}"
 
+user.sources.destroy_all
+user.projects.destroy_all
+
+ruby_native = user.projects.create!(name: "ruby native")
+masilotti = user.projects.create!(name: "masilotti")
+
 sources = {
-  stripe_active: user.sources.find_or_create_by!(name: "Stripe production") { |s|
-    s.parser_type = "stripe"
-    s.signing_secret = "whsec_dev_active"
-  },
-  stripe_pending: user.sources.find_or_create_by!(name: "Stripe staging") { |s|
-    s.parser_type = "stripe"
-    s.signing_secret = "whsec_dev_pending"
-  },
-  stripe_unconfigured: user.sources.find_or_create_by!(name: "Stripe sandbox") { |s|
-    s.parser_type = "stripe"
-  },
-  hatchbox: user.sources.find_or_create_by!(name: "pingrb production") { |s|
-    s.parser_type = "hatchbox"
-  },
-  cal: user.sources.find_or_create_by!(name: "Cal.com") { |s|
-    s.parser_type = "cal"
-    s.signing_secret = "cal_dev_secret"
-  },
-  status_cake: user.sources.find_or_create_by!(name: "pingrb monitors") { |s|
-    s.parser_type = "status_cake"
-  },
-  github: user.sources.find_or_create_by!(name: "ruby-native/pingrb") { |s|
-    s.parser_type = "github"
-    s.signing_secret = "github_dev_secret"
-  },
-  custom: user.sources.find_or_create_by!(name: "Background jobs") { |s|
-    s.parser_type = "custom"
-  },
-  cli: user.sources.find_or_create_by!(name: "terminal") { |s|
-    s.parser_type = "cli"
-  }
+  rn_issues: user.sources.create!(name: "Ruby Native Issues", project: ruby_native, parser_type: "github", signing_secret: "github_dev_issues"),
+  rn_ci: user.sources.create!(name: "Ruby Native CI", project: ruby_native, parser_type: "github", signing_secret: "github_dev_ci"),
+  cli: user.sources.create!(name: "CLI", parser_type: "cli"),
+  rn_uptime: user.sources.create!(name: "Ruby Native Uptime", project: ruby_native, parser_type: "status_cake"),
+  meetings: user.sources.create!(name: "Scheduled Meetings", project: masilotti, parser_type: "cal", signing_secret: "cal_dev_meetings"),
+  rn_deploys: user.sources.create!(name: "Ruby Native Failed Deploys", project: ruby_native, parser_type: "hatchbox"),
+  masilotti_payments: user.sources.create!(name: "Payments", project: masilotti, parser_type: "stripe", signing_secret: "whsec_dev_masilotti"),
+  rn_payments: user.sources.create!(name: "Ruby Native Payments", project: ruby_native, parser_type: "stripe", signing_secret: "whsec_dev_rn")
 }
 
 webhook_seeds = {
-  stripe_active: [
-    [ "stripe/payment_intent_succeeded.json", 2.minutes.ago ],
-    [ "stripe/invoice_paid.json", 3.hours.ago ],
-    [ "stripe/subscription_deleted.json", 1.day.ago ],
-    [ "stripe/dispute_created.json", 2.days.ago ]
-  ],
-  hatchbox: [
-    [ "hatchbox/deploy_failed.txt", 6.hours.ago ]
-  ],
-  cal: [
-    [ "cal/booking_created.json", 30.minutes.ago ],
-    [ "cal/booking_cancelled.json", 4.hours.ago ]
-  ],
-  status_cake: [
-    [ "status_cake/site_down.txt", 12.minutes.ago ],
-    [ "status_cake/site_recovered.txt", 9.minutes.ago ]
-  ],
-  github: [
-    [ "github/issue_comment_created.json", 10.minutes.ago ],
-    [ "github/issue_opened.json", 25.minutes.ago ],
-    [ "github/workflow_run_failed.json", 5.hours.ago ]
-  ],
-  custom: [
-    [ "custom/job_done.json", 18.minutes.ago ],
-    [ "custom/agent_error.json", 2.hours.ago ]
-  ],
-  cli: [
-    [ "cli/deploy_done.json", 8.minutes.ago ],
-    [ "cli/script_finished.json", 1.hour.ago ]
-  ]
+  cli: [ [ "cli/deploy_done.json", 8.minutes.ago ] ],
+  rn_uptime: [ [ "status_cake/site_down.txt", 12.minutes.ago ] ],
+  meetings: [ [ "cal/booking_created.json", 30.minutes.ago ] ],
+  rn_deploys: [ [ "hatchbox/deploy_failed.txt", 6.hours.ago ] ]
 }
 
 webhook_seeds.each do |source_key, entries|
   source = sources[source_key]
-  next if source.notifications.any?
 
   entries.each do |fixture, received_at|
     body = File.read(Rails.root.join("db/seeds/webhooks", fixture))

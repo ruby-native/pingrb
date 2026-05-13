@@ -1,7 +1,7 @@
-<%= native_navbar_tag "Rename source" %>
+<%= native_navbar_tag "Edit source" %>
 
 <main class="mx-auto w-full max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
-  <%= render "shared/page_header", title: "rename" do %>
+  <%= render "shared/page_header", title: "edit" do %>
     <%= link_to "~/sources", sources_path, class: "hover:text-neutral-900" %>/<%= link_to @source.name, @source, class: "hover:text-neutral-900" %>
   <% end %>
 
@@ -20,6 +20,23 @@
     <div>
       <%= form.label :name, class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
       <%= form.text_field :name, required: true, autofocus: true, class: "mt-2 block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+    </div>
+
+    <div data-controller="project-picker">
+      <%= form.label :project_id, "project", class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
+      <span class="mt-2 inline-grid w-full grid-cols-[1fr_--spacing(8)]">
+        <%= form.select :project_id,
+              options_for_select([ [ "(default)", "" ] ] + @projects.map { |p| [ p.name, p.id ] } + [ [ "+ new project", "new" ] ], params.dig(:source, :project_id).presence || @source.project_id),
+              {},
+              class: "col-span-full row-start-1 appearance-none rounded-sm border border-neutral-950/15 bg-white py-2 pr-8 pl-3 text-sm text-neutral-900 focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700",
+              data: { "project-picker-target": "select", action: "change->project-picker#toggle" } %>
+        <svg viewBox="0 0 8 5" width="8" height="5" fill="none" class="pointer-events-none col-start-2 row-start-1 place-self-center text-neutral-500">
+          <path d="M.5.5 4 4 7.5.5" stroke="currentcolor" />
+        </svg>
+      </span>
+      <div data-project-picker-target="newField" <%= "hidden" unless params.dig(:source, :project_id) == "new" %>>
+        <%= form.text_field :new_project_name, placeholder: "new project name", autocomplete: "off", data: { "project-picker-target": "newInput" }, class: "mt-2 block w-full rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
+      </div>
     </div>
 
     <div class="flex items-center gap-3 pt-2">
