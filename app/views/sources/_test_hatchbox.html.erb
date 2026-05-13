@@ -1,5 +1,5 @@
 <p class="text-neutral-700">Fire a test ping with <code class="text-neutral-900">curl</code> from anywhere:</p>
 
-<pre class="mt-3 overflow-x-auto rounded-sm border border-neutral-950/10 bg-white px-3 py-2 text-xs text-neutral-900">curl -X POST "<%= public_webhook_url(parser_type: source.parser_type, token: source.token) %>" -d "branch=main&revision=abc1234&log_id=test"</pre>
+<pre class="mt-3 overflow-x-auto rounded-sm bg-neutral-200 px-3 py-2 text-xs text-neutral-900">curl -X POST "<%= public_webhook_url(parser_type: source.parser_type, token: source.token) %>" -d "branch=main&revision=abc1234&log_id=test"</pre>
 
 <p class="mt-3 text-xs text-neutral-500">The notification should land below within a second.</p>
