@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     member { post :test }
   end
   resource :registration, only: %i[new create]
+  resource :account, only: %i[show destroy]
 
   namespace :admin do
     resource :dashboard, only: :show

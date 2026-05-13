@@ -9,7 +9,7 @@
       <% if admin? %>
         <%= link_to "admin", admin_dashboard_path, class: "hover:text-neutral-900" %>
       <% end %>
-      <%= button_to "logout", session_path, method: :delete, data: { logout_button: "" }, class: "text-neutral-500 hover:text-neutral-900", form: { class: "contents" } %>
+      <%= link_to "account", account_path, class: "hover:text-neutral-900" %>
     </div>
   </div>
 </header>

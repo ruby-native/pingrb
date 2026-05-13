@@ -1,0 +1,17 @@
+<%= native_navbar_tag "account" %>
+
+<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header", title: "~/account" %>
+
+  <section class="mt-6 -mx-4 bg-neutral-50 px-5 py-4 sm:mx-0 sm:rounded-sm">
+    <dl class="grid grid-cols-[auto_1fr] items-center gap-x-6 gap-y-2 text-sm">
+      <dt class="text-xs tracking-wide text-neutral-500 uppercase">email</dt>
+      <dd class="text-neutral-900"><%= current_user.email_address %></dd>
+    </dl>
+  </section>
+
+  <section class="mt-8 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-end">
+    <%= button_to "[ logout ]", session_path, method: :delete, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
+    <%= button_to "[ delete account ]", account_path, method: :delete, data: { turbo_confirm: "Delete your account? All sources, devices, and notifications will be permanently removed. This cannot be undone." }, class: "rounded-sm border border-red-700/30 px-2.5 py-1.5 text-sm whitespace-nowrap text-red-700 hover:border-red-700 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", form: { class: "contents" } %>
+  </section>
+</main>
