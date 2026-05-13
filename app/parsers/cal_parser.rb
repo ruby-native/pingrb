@@ -7,6 +7,10 @@ class CalParser < Parser
     true
   end
 
+  def self.auto_generate_signing_secret?
+    true
+  end
+
   def parse
     booking = payload["payload"] || {}
 

@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_action :set_source, only: %i[show edit update destroy rotate]
+  before_action :set_source, only: %i[show edit update destroy rotate regenerate_signing_secret]
 
   def index
     @sources = Current.user.sources.order(created_at: :desc)
@@ -42,6 +42,11 @@ class SourcesController < ApplicationController
   def rotate
     @source.regenerate_token
     redirect_to @source, notice: "Webhook URL rotated. Update the source with the new URL."
+  end
+
+  def regenerate_signing_secret
+    @source.regenerate_signing_secret
+    redirect_to @source, notice: "Signing secret regenerated. Update #{@source.parser_type.titleize} with the new secret."
   end
 
   private

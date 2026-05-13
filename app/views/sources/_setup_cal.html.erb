@@ -27,21 +27,9 @@
   <li class="grid grid-cols-[auto_1fr] gap-x-4">
     <span class="text-emerald-700 tabular-nums">04</span>
     <div class="min-w-0">
-      <p class="text-neutral-900">Generate a secret in Cal.com (the Secret field) and paste it here.</p>
+      <p class="text-neutral-900">Copy this signing secret and paste it into the Cal.com Secret field.</p>
       <p class="mt-1 text-xs text-neutral-500">Cal.com signs each request with HMAC-SHA256 using this secret.</p>
-
-      <%= form_with model: source, class: "mt-4" do |form| %>
-        <%= form.label :signing_secret, "signing secret", class: "block text-xs tracking-wide text-neutral-500 uppercase" %>
-        <div class="mt-2 flex items-center gap-2">
-          <%= form.password_field :signing_secret, value: source.signing_secret, placeholder: "your secret", class: "min-w-0 flex-1 rounded-sm border border-neutral-950/15 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 max-sm:text-base focus:border-emerald-700 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-700" %>
-          <%= form.submit (source.signing_secret.present? ? "update" : "save"), class: "min-w-18 shrink-0 rounded-sm border border-emerald-700/30 bg-emerald-50 px-3 py-2 text-sm whitespace-nowrap text-emerald-700 hover:border-emerald-700 hover:bg-emerald-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
-        </div>
-        <% if source.signing_secret.blank? %>
-          <p class="mt-2 text-xs text-red-700">Webhooks will be rejected until you add the signing secret.</p>
-        <% else %>
-          <p class="mt-2 text-xs text-emerald-700">Signing secret saved. Webhooks are verified.</p>
-        <% end %>
-      <% end %>
+      <%= render "signing_secret_field", source: source %>
     </div>
   </li>
 </ol>

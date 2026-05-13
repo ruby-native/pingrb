@@ -7,6 +7,10 @@ class GithubParser < Parser
     true
   end
 
+  def self.auto_generate_signing_secret?
+    true
+  end
+
   def parse
     if payload["workflow_run"]
       parse_workflow_run

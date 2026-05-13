@@ -3,6 +3,9 @@
 <%= native_navbar_tag @source.name do |navbar| %>
   <% navbar.button icon: "ellipsis", position: :trailing do |menu| %>
     <% menu.item "Rename", click: "[data-rename-button]" %>
+    <% if @source.parser.auto_generate_signing_secret? %>
+      <% menu.item "Regenerate secret", click: "[data-regenerate-secret-button]" %>
+    <% end %>
     <% unless @source.parser.requires_signing_secret? %>
       <% menu.item "Rotate URL", click: "[data-rotate-button]" %>
     <% end %>
@@ -59,6 +62,9 @@
 
   <section class="native-hidden mt-8 flex items-center justify-end gap-2">
     <%= link_to "[ rename ]", edit_source_path(@source), data: { rename_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700" %>
+    <% if @source.parser.auto_generate_signing_secret? %>
+      <%= button_to "[ regenerate secret ]", regenerate_signing_secret_source_path(@source), method: :post, data: { turbo_confirm: "Regenerate the signing secret? The old secret stops working immediately and must be updated in #{@source.parser_type.titleize}.", regenerate_secret_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
+    <% end %>
     <% unless @source.parser.requires_signing_secret? %>
       <%= button_to "[ rotate URL ]", rotate_source_path(@source), method: :post, data: { turbo_confirm: "Rotate the webhook URL? The old URL stops working immediately.", rotate_button: "" }, class: "rounded-sm border border-neutral-950/15 px-2.5 py-1.5 text-sm whitespace-nowrap text-neutral-700 hover:border-neutral-700 hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700", form: { class: "contents" } %>
     <% end %>

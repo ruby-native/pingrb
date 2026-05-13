@@ -67,6 +67,23 @@ class SourcesControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal old_token, source.reload.token
   end
 
+  test "regenerates the signing secret" do
+    source = sources(:cal)
+    old_secret = source.signing_secret
+
+    post regenerate_signing_secret_source_path(source)
+
+    assert_redirected_to source
+    assert_not_equal old_secret, source.reload.signing_secret
+    assert_predicate source.signing_secret, :present?
+  end
+
+  test "regenerate_signing_secret 404s for another user's source" do
+    other_source = Source.create!(user: users(:two), name: "Other", parser_type: "cal")
+    post regenerate_signing_secret_source_path(other_source)
+    assert_response :not_found
+  end
+
   test "404s when accessing another user's source" do
     other_source = Source.create!(user: users(:two), name: "Other", parser_type: "stripe")
     get source_path(other_source)

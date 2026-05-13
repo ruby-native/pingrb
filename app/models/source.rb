@@ -12,7 +12,27 @@ class Source < ApplicationRecord
   validates :name, presence: true
   validates :parser_type, inclusion: { in: PARSER_TYPES }
 
+  before_validation :generate_signing_secret, on: :create
+
   def parser
     "#{parser_type.classify}Parser".constantize
+  end
+
+  def regenerate_signing_secret
+    update!(signing_secret: self.class.generate_signing_secret)
+  end
+
+  def self.generate_signing_secret
+    SecureRandom.hex(32)
+  end
+
+  private
+
+  def generate_signing_secret
+    return unless parser_type.in?(PARSER_TYPES)
+    return unless parser.auto_generate_signing_secret?
+    return if signing_secret.present?
+
+    self.signing_secret = self.class.generate_signing_secret
   end
 end

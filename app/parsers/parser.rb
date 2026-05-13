@@ -13,6 +13,10 @@ class Parser
     false
   end
 
+  def self.auto_generate_signing_secret?
+    false
+  end
+
   def initialize(payload)
     @payload = payload
   end
