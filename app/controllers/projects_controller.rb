@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :set_project
 
   def show
-    @sources = @project.sources.order(created_at: :desc)
+    @sources = @project.sources.order(:name)
     @notification_counts = Notification.where(source_id: @sources).group(:source_id).count
   end
 

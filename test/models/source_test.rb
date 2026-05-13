@@ -94,22 +94,4 @@ class SourceTest < ActiveSupport::TestCase
     assert_equal [ keeper.id ], project.reload.sources.pluck(:id)
   end
 
-  test "display_name_for strips the project's name prefix" do
-    project = Project.new(name: "ruby native")
-    source = Source.new(name: "Ruby Native Issues")
-
-    assert_equal "Issues", source.display_name_for(project)
-  end
-
-  test "display_name_for is case-insensitive" do
-    project = Project.new(name: "ruby native")
-    source = Source.new(name: "ruby native foo")
-
-    assert_equal "foo", source.display_name_for(project)
-  end
-
-  test "display_name_for returns the full name when project is nil" do
-    source = users(:one).sources.build(name: "Standalone")
-    assert_equal "Standalone", source.display_name_for(nil)
-  end
 end

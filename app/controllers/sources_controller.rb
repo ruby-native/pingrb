@@ -3,7 +3,7 @@ class SourcesController < ApplicationController
   before_action :set_projects, only: %i[new create edit update]
 
   def index
-    @sources = Current.user.sources.includes(:project).order(created_at: :desc)
+    @sources = Current.user.sources.includes(:project).order(:name)
     @notification_counts = Notification.where(source_id: @sources).group(:source_id).count
     @grouped_sources = group_sources(@sources)
   end

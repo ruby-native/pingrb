@@ -16,7 +16,7 @@
   <% if @sources.any? %>
     <ul role="list" class="mt-4 -mx-4 sm:mx-0 divide-y divide-neutral-950/10">
       <% @sources.each do |source| %>
-        <%= render "sources/row", source: source, display_name: source.display_name_for(@project) %>
+        <%= render "sources/row", source: source %>
       <% end %>
     </ul>
   <% else %>

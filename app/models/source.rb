@@ -33,11 +33,6 @@ class Source < ApplicationRecord
     "#{parser_type.classify}Parser".constantize
   end
 
-  def display_name_for(project)
-    return name unless project
-    name.sub(/\A#{Regexp.escape(project.name)}\s+/i, "").presence || name
-  end
-
   def regenerate_signing_secret
     update!(signing_secret: self.class.generate_signing_secret)
   end

@@ -1,10 +1,9 @@
-<% display_name = local_assigns[:display_name] || source.name %>
 <% nested = local_assigns[:nested] %>
 <% needs_setup = source.parser.requires_signing_secret? && source.signing_secret.blank? %>
 <% count = @notification_counts[source.id] || 0 %>
 <li>
   <%= link_to source_path(source), class: "grid grid-cols-[1fr_auto_auto] items-center gap-x-4 py-3 text-neutral-900 transition hover:bg-neutral-50 sm:gap-x-6 #{nested ? 'pl-8 pr-4' : 'px-4'}" do %>
-    <span class="truncate"><%= display_name %></span>
+    <span class="truncate"><%= source.name %></span>
     <span class="text-neutral-500"><%= source.parser_type %></span>
     <% if needs_setup %>
       <span class="tabular-nums text-red-700" title="Needs setup">TODO</span>

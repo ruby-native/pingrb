@@ -25,7 +25,7 @@
           <% end %>
           <ul role="list" class="divide-y divide-neutral-950/10">
             <% item[:sources].each do |source| %>
-              <%= render "row", source: source, display_name: source.display_name_for(item[:project]), nested: true %>
+              <%= render "row", source: source, nested: true %>
             <% end %>
           </ul>
         </li>
