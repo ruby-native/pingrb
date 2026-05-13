@@ -1,7 +1,9 @@
 <%= native_navbar_tag "account" %>
 
-<main class="mx-auto max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
-  <%= render "shared/page_header", title: "~/account" %>
+<main class="mx-auto w-full max-w-3xl px-4 py-6 text-sm sm:px-6 sm:py-8">
+  <%= render "shared/page_header", title: "whoami" do %>
+    <%= link_to "~", root_path, class: "hover:text-neutral-900" %>/account
+  <% end %>
 
   <section class="mt-6 -mx-4 bg-neutral-50 px-5 py-4 sm:mx-0 sm:rounded-sm">
     <dl class="grid grid-cols-[auto_1fr] items-center gap-x-6 gap-y-2 text-sm">
