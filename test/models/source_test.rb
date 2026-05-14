@@ -93,5 +93,4 @@ class SourceTest < ActiveSupport::TestCase
     assert Project.exists?(project.id)
     assert_equal [ keeper.id ], project.reload.sources.pluck(:id)
   end
-
 end
