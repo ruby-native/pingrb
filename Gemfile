@@ -70,4 +70,4 @@ gem "ruby_native"
 
 gem "action_push_native"
 
-gem "honeybadger", "~> 6.0"
+gem "honeybadger", "~> 6.6"
